@@ -1,0 +1,23 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 20px;
+}
+
+.logo {
+  width: 150px;
+}
+
+.desc {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.back-home-btn {
+  width: 188px;
+  padding: 12px 20px;
+}

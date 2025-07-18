@@ -1,0 +1,39 @@
+.post-card {
+  border-radius: 16px;
+
+  &--primary {
+    position: relative;
+    width: 361px;
+    height: 272px;
+  }
+
+  &--secondary {
+    width: 574px;
+    margin-top: 30px;
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: black;
+  opacity: 0.2;
+  border-radius: 15px;
+}
+
+.post-card__image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+
+  &--primary {
+    height: 100%;
+  }
+
+  &--secondary {
+    height: 433px;
+  }
+}

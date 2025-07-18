@@ -1,0 +1,13 @@
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--tertiary-color);
+
+  &::before {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--primary-color);
+  }
+}

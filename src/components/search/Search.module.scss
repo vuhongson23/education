@@ -1,0 +1,24 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 320px;
+  padding: 15px 0 15px 21px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  margin-right: 21px;
+}
+
+.input {
+  width: 100%;
+  outline: none;
+  padding-right: 40px;
+  font-size: 18px;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+}
