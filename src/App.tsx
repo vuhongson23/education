@@ -10,7 +10,6 @@ function App() {
   return (
     <div>
       <Routes>
-        {/**Public route */}
         <Route element={<PublicRoute />}>
           {publicRoutes.map((route) => {
             const Layout = route.layout;
@@ -22,7 +21,6 @@ function App() {
             );
           })}
         </Route>
-        {/**Private route */}
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
             {privateRoutes.map((route) => {

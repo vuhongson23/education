@@ -1,13 +1,14 @@
 import classNames from "classnames/bind";
 
 import styles from "./Header.module.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Button from "~/components/button";
 import Search from "~/components/search";
 
 const cx = classNames.bind(styles);
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <div className={cx("wrapper")}>
       <div className={cx("wrapper-left")}>
@@ -20,9 +21,9 @@ const Header = () => {
       </div>
       <div className={cx("wrapper-right")}>
         <Search />
-        <div className={cx("action")}>
-          <Button variant="secondary">Sign Up</Button>
-        </div>
+        <Button variant="secondary" onClick={() => navigate("/register")}>
+          Sign Up
+        </Button>
       </div>
     </div>
   );
