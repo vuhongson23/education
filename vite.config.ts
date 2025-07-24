@@ -6,7 +6,7 @@ import path from "node:path";
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,
+    port: Number(process.env.VITE_PORT) || 3000,
   },
   resolve: {
     alias: {

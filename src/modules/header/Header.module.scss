@@ -29,3 +29,23 @@
   display: flex;
   align-items: center;
 }
+
+.user-action {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+
+  .user-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 1000px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+}

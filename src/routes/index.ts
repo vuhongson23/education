@@ -6,30 +6,31 @@ import DashboardPage from "~/pages/dashboard";
 import HomePage from "~/pages/home";
 import LoginPage from "~/pages/login";
 import RegisterPage from "~/pages/register";
+import { routes } from "~/constant/routes";
 
 const publicRoutes = [
   {
-    path: "/login",
+    path: routes.login,
     element: LoginPage,
     layout: AuthLayout,
   },
   {
-    path: "/register",
+    path: routes.register,
     element: RegisterPage,
     layout: AuthLayout,
   },
   {
-    path: "/",
+    path: routes.home,
     element: HomePage,
     layout: MainLayout,
   },
   {
-    path: "/blog",
+    path: routes.blog,
     element: BlogPage,
     layout: MainLayout,
   },
   {
-    path: "/contact",
+    path: routes.contact,
     element: ContactPage,
     layout: MainLayout,
   },
@@ -37,7 +38,7 @@ const publicRoutes = [
 
 const privateRoutes = [
   {
-    path: "/dashboard",
+    path: routes.dashboard,
     element: DashboardPage,
     layout: MainLayout,
   },

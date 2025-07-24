@@ -5,3 +5,12 @@
   background: white;
   margin-top: 50px;
 }
+
+.login_btn {
+  display: flex;
+  width: 100%;
+  margin-top: -15px;
+  font-size: 18px;
+  color: var(--primary-color);
+  cursor: pointer;
+}

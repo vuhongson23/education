@@ -5,10 +5,23 @@ import { privateRoutes, publicRoutes } from "~/routes";
 import PrivateRoute from "~/routes/private/PrivateRoute";
 import MainLayout from "~/layouts/main-layout";
 import NotFoundPage from "~/pages/not-found";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Routes>
         <Route element={<PublicRoute />}>
           {publicRoutes.map((route) => {

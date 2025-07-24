@@ -3,6 +3,7 @@ import styles from "./Button.module.scss";
 
 interface ButtonProps {
   children: React.ReactNode;
+  type?: "button" | "submit" | "reset";
   variant?: "primary" | "secondary" | "third";
   className?: string;
   onClick?: () => void;
@@ -10,9 +11,16 @@ interface ButtonProps {
 
 const cx = classNames.bind(styles);
 
-const Button = ({ children, variant, className, onClick }: ButtonProps) => {
+const Button = ({
+  children,
+  type = "button",
+  variant,
+  className,
+  onClick,
+}: ButtonProps) => {
   return (
     <button
+      type={type}
       className={cx("wrapper", `wrapper--${variant}`, {
         [className || ""]: !!className,
       })}
