@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import styles from "./Header.module.scss";
-import { NavLink, useNavigate } from "react-router-dom";
 import Button from "~/components/button";
 import Search from "~/components/search";
 

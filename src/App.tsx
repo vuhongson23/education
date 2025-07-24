@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import PublicRoute from "~/routes/public/PublicRoute";
 import { privateRoutes, publicRoutes } from "~/routes";
 import PrivateRoute from "~/routes/private/PrivateRoute";
 import MainLayout from "~/layouts/main-layout";
 import NotFoundPage from "~/pages/not-found";
-import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
             const Page = route.element;
             return (
               <Route key={route.path} element={<Layout />}>
-                <Route path={route.path} element={<Page />} />;
+                <Route path={route.path} element={<Page />} />
               </Route>
             );
           })}

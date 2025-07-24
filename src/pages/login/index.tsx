@@ -52,6 +52,8 @@ const LoginPage = () => {
 
         toast.success(`Xin chào ${response?.data?.userName}`);
         navigate(routes.home);
+      } else if (response?.data?.status) {
+        toast.error(response?.data?.message);
       }
     } catch (error) {
       toast.error("Đăng nhập thất bại");
