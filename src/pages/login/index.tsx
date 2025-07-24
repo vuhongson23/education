@@ -4,13 +4,14 @@ import classNames from "classnames/bind";
 import * as Yup from "yup";
 
 import styles from "./LoginPage.module.scss";
-import { OpenEyeIcon } from "~/assets/icons";
+import { CloseEyeIcon, OpenEyeIcon } from "~/assets/icons";
 import Button from "~/components/button";
 import Input from "~/components/input";
 import { routes } from "~/constant/routes";
 import { toast } from "react-toastify";
 import { postDataAPI } from "~/utils/api";
 import { URL_LOGIN } from "~/api/end-point";
+import { useState } from "react";
 
 interface FormValuesLogin {
   email: string;
@@ -32,6 +33,7 @@ const loginSchema = Yup.object().shape({
 });
 
 const LoginPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (values: FormValuesLogin) => {
@@ -59,6 +61,11 @@ const LoginPage = () => {
       toast.error("Đăng nhập thất bại");
     }
   };
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <Formik
       initialValues={{
@@ -78,17 +85,18 @@ const LoginPage = () => {
               placeholder="Please enter your email address"
             />
             <Input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               label="Password"
+              onClick={handleShowPassword}
               placeholder="Please enter your password"
-              rightIcon={<OpenEyeIcon />}
+              rightIcon={showPassword ? <OpenEyeIcon /> : <CloseEyeIcon />}
             />
             <div
               className={cx("register-btn")}
               onClick={() => navigate(routes.register)}
             >
-              Bạn đã có tài khoản?
+              Bạn chưa có tài khoản?
             </div>
             <Button type="submit" variant="primary">
               Register

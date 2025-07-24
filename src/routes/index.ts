@@ -7,8 +7,9 @@ import HomePage from "~/pages/home";
 import LoginPage from "~/pages/login";
 import RegisterPage from "~/pages/register";
 import { routes } from "~/constant/routes";
+import ProfilePage from "~/pages/profile";
 
-const publicRoutes = [
+const authRoute = [
   {
     path: routes.login,
     element: LoginPage,
@@ -19,6 +20,8 @@ const publicRoutes = [
     element: RegisterPage,
     layout: AuthLayout,
   },
+];
+const publicRoutes = [
   {
     path: routes.home,
     element: HomePage,
@@ -42,6 +45,11 @@ const privateRoutes = [
     element: DashboardPage,
     layout: MainLayout,
   },
+  {
+    path: routes.profile,
+    element: ProfilePage,
+    layout: MainLayout,
+  },
 ];
 
-export { publicRoutes, privateRoutes };
+export { authRoute, publicRoutes, privateRoutes };

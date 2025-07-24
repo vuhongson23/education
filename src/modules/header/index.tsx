@@ -4,22 +4,24 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
 import Button from "~/components/button";
 import Search from "~/components/search";
+import { routes } from "~/constant/routes";
+import { isAuthenticated } from "~/utils/auth";
+import { DashboardIcon, LogOutIcon, UserIcon } from "~/assets/icons";
 
 const cx = classNames.bind(styles);
 
 const Header = () => {
-  const userInfor = localStorage.getItem("user_infor");
-  const user = userInfor ? JSON.parse(userInfor) : null;
   const navigate = useNavigate();
+  const user = isAuthenticated();
 
   return (
     <div className={cx("wrapper")}>
       <div className={cx("wrapper-left")}>
         <img src="logo.png" alt="" className={cx("logo")} />
         <div className={cx("nav-bar")}>
-          <NavLink to={"/"}>Home</NavLink>
-          <NavLink to={"/blog"}>Blog</NavLink>
-          <NavLink to={"/contact"}>Contact</NavLink>
+          <NavLink to={routes.home}>Home</NavLink>
+          <NavLink to={routes.blog}>Blog</NavLink>
+          <NavLink to={routes.contact}>Contact</NavLink>
         </div>
       </div>
       <div className={cx("wrapper-right")}>
@@ -35,6 +37,17 @@ const Header = () => {
               alt="avatar"
               className={cx("user-avatar")}
             />
+            <div className={cx("controller-list")}>
+              <NavLink to={routes.profile} className={cx("controller-item")}>
+                <UserIcon /> Profile
+              </NavLink>
+              <NavLink to={routes.dashboard} className={cx("controller-item")}>
+                <DashboardIcon /> Dashboard
+              </NavLink>
+              <NavLink to={routes.dashboard} className={cx("controller-item")}>
+                <LogOutIcon /> Log out
+              </NavLink>
+            </div>
           </div>
         ) : (
           <Button variant="secondary" onClick={() => navigate("/register")}>

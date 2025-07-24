@@ -5,4 +5,5 @@ export const routes = {
   blog: "/blog",
   contact: "/contact",
   dashboard: "/dashboard",
+  profile: "/profile",
 };

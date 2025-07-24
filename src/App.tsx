@@ -2,10 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import PublicRoute from "~/routes/public/PublicRoute";
-import { privateRoutes, publicRoutes } from "~/routes";
+import { authRoute, privateRoutes, publicRoutes } from "~/routes";
 import PrivateRoute from "~/routes/private/PrivateRoute";
 import MainLayout from "~/layouts/main-layout";
 import NotFoundPage from "~/pages/not-found";
+import AuthLayout from "./layouts/auth";
 
 function App() {
   return (
@@ -23,17 +24,17 @@ function App() {
         theme="light"
       />
       <Routes>
+        {/*Public route: chỉ login và register */}
         <Route element={<PublicRoute />}>
-          {publicRoutes.map((route) => {
-            const Layout = route.layout;
-            const Page = route.element;
-            return (
-              <Route key={route.path} element={<Layout />}>
-                <Route path={route.path} element={<Page />} />
-              </Route>
-            );
-          })}
+          <Route element={<AuthLayout />}>
+            {authRoute.map((route) => {
+              const Page = route.element;
+              return <Route path={route.path} element={<Page />} />;
+            })}
+          </Route>
         </Route>
+
+        {/**Private Route */}
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
             {privateRoutes.map((route) => {
@@ -44,6 +45,16 @@ function App() {
             })}
           </Route>
         </Route>
+
+        {/**Public route: cho user có account và non-account  */}
+        <Route element={<MainLayout />}>
+          {publicRoutes.map((route) => {
+            const Page = route.element;
+            return <Route path={route.path} element={<Page />} />;
+          })}
+        </Route>
+
+        {/**Route not found */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>

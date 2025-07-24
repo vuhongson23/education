@@ -4,7 +4,7 @@ import { useState } from "react";
 import * as Yup from "yup";
 
 import styles from "./RegisterPage.module.scss";
-import { OpenEyeIcon } from "~/assets/icons";
+import { CloseEyeIcon, OpenEyeIcon } from "~/assets/icons";
 import Button from "~/components/button";
 import Input from "~/components/input";
 import { postDataAPI } from "~/utils/api";
@@ -103,7 +103,7 @@ const RegisterPage = () => {
               label="Password"
               onClick={handleShowPassword}
               placeholder="Please enter your password..."
-              rightIcon={<OpenEyeIcon />}
+              rightIcon={showPassword ? <OpenEyeIcon /> : <CloseEyeIcon />}
             />
             <div
               className={cx("login_btn")}
