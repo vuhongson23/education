@@ -23,11 +23,13 @@ const Header = ({ kind = "primary" }: HeaderProps) => {
     sessionStorage.clear();
   };
 
+  const profileLink = user?.id ? `/profile/${user.id}` : routes.profileByUser;
+
   return (
     <div className={cx("wrapper", `wrapper--${kind}`)}>
       <div className={cx("wrapper-left")}>
         <img
-          src="logo.png"
+          src="/logo.png"
           alt=""
           className={cx("logo")}
           onClick={() => navigate("/")}
@@ -58,7 +60,7 @@ const Header = ({ kind = "primary" }: HeaderProps) => {
               className={cx("user-avatar")}
             />
             <div className={cx("controller-list")}>
-              <NavLink to={routes.profile} className={cx("controller-item")}>
+              <NavLink to={profileLink} className={cx("controller-item")}>
                 <UserIcon /> Profile
               </NavLink>
               <NavLink to={routes.dashboard} className={cx("controller-item")}>

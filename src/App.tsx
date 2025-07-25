@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import PublicRoute from "~/routes/public/PublicRoute";
@@ -9,8 +9,11 @@ import NotFoundPage from "~/pages/not-found";
 import AuthLayout from "~/layouts/auth";
 import SecondaryLayout from "~/layouts/secondary-layout";
 import ProfileLayout from "~/pages/profile";
+import { isAuthenticated } from "~/utils/auth";
 
 function App() {
+  const user = isAuthenticated();
+  const profileLink = `/profile/${user?.id || "user"}`;
   return (
     <div>
       <ToastContainer
@@ -46,6 +49,25 @@ function App() {
               </Route>
             );
           })}
+          {/**Profile route */}
+          <Route element={<SecondaryLayout />}>
+            <Route element={<ProfileLayout />}>
+              <Route
+                path={"/profile"}
+                element={<Navigate to={profileLink} replace />}
+              />
+              {profileRoute.map((route) => {
+                const Elem = route.element;
+                return (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={<Elem />}
+                  />
+                );
+              })}
+            </Route>
+          </Route>
         </Route>
 
         {/**Public route: cho user có account và non-account  */}
@@ -55,16 +77,6 @@ function App() {
             return <Route path={route.path} element={<Page />} />;
           })}
         </Route>
-
-        {/**Profile route */}
-        {/* <Route element={<SecondaryLayout />}> */}
-        <Route element={<ProfileLayout />}>
-          {profileRoute.map((route) => {
-            const Elem = route.element;
-            return <Route key={route.path} element={<Elem />} />;
-          })}
-        </Route>
-        {/* </Route> */}
 
         {/**Route not found */}
         <Route path="*" element={<NotFoundPage />} />

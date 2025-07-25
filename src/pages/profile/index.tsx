@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 
 import styles from "./ProfilePage.module.scss";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import {
   GearIcon,
   HeartCircleIcon,
@@ -9,38 +9,43 @@ import {
   PostIcon,
   UserIcon,
 } from "~/assets/icons";
+import { isAuthenticated } from "~/utils/auth";
 
 const cx = classNames.bind(styles);
 
-const menus = [
-  {
-    icon: UserIcon,
-    title: "Profile",
-    to: "/profile/:id",
-  },
-  {
-    icon: PostIcon,
-    title: "Posts",
-    to: "/profile/posts",
-  },
-  {
-    icon: HeartCircleIcon,
-    title: "Favourite",
-    to: "/profile/favourite",
-  },
-  {
-    icon: GearIcon,
-    title: "Setting",
-    to: "/profile/setting",
-  },
-  {
-    icon: LogOutIcon,
-    title: "Log out",
-    to: "",
-  },
-];
-
 const ProfileLayout = () => {
+  const { id } = useParams();
+  console.log("🚀 ~ ProfileLayout ~ id:", id);
+  const user = isAuthenticated();
+
+  const menus = [
+    {
+      icon: UserIcon,
+      title: "Profile",
+      to: `/profile/${id || user?.id || user}`,
+    },
+    {
+      icon: PostIcon,
+      title: "Posts",
+      to: "/profile/posts",
+    },
+    {
+      icon: HeartCircleIcon,
+      title: "Favourite",
+      to: "/profile/favourite",
+    },
+    {
+      icon: GearIcon,
+      title: "Setting",
+      to: "/profile/setting",
+    },
+    {
+      icon: LogOutIcon,
+      title: "Log out",
+      to: "",
+    },
+  ];
+
   return (
     <div className={cx("wrapper")}>
       <div className={cx("side-bar")}>
@@ -51,7 +56,11 @@ const ProfileLayout = () => {
             return (
               <NavLink
                 key={menu.title}
-                className={cx("side-bar--menu-item")}
+                className={({ isActive }) =>
+                  cx("side-bar--menu-item", {
+                    active: isActive,
+                  })
+                }
                 to={menu.to}
               >
                 <Icon />
