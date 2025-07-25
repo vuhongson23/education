@@ -2,11 +2,13 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import PublicRoute from "~/routes/public/PublicRoute";
-import { authRoute, privateRoutes, publicRoutes } from "~/routes";
+import { authRoute, privateRoutes, profileRoute, publicRoutes } from "~/routes";
 import PrivateRoute from "~/routes/private/PrivateRoute";
 import MainLayout from "~/layouts/main-layout";
 import NotFoundPage from "~/pages/not-found";
-import AuthLayout from "./layouts/auth";
+import AuthLayout from "~/layouts/auth";
+import SecondaryLayout from "~/layouts/secondary-layout";
+import ProfileLayout from "~/pages/profile";
 
 function App() {
   return (
@@ -36,14 +38,14 @@ function App() {
 
         {/**Private Route */}
         <Route element={<PrivateRoute />}>
-          <Route element={<MainLayout />}>
-            {privateRoutes.map((route) => {
-              const Elem = route.element;
-              return (
+          {privateRoutes.map((route) => {
+            const Elem = route.element;
+            return (
+              <Route element={<SecondaryLayout />}>
                 <Route key={route.path} path={route.path} element={<Elem />} />
-              );
-            })}
-          </Route>
+              </Route>
+            );
+          })}
         </Route>
 
         {/**Public route: cho user có account và non-account  */}
@@ -53,6 +55,16 @@ function App() {
             return <Route path={route.path} element={<Page />} />;
           })}
         </Route>
+
+        {/**Profile route */}
+        {/* <Route element={<SecondaryLayout />}> */}
+        <Route element={<ProfileLayout />}>
+          {profileRoute.map((route) => {
+            const Elem = route.element;
+            return <Route key={route.path} element={<Elem />} />;
+          })}
+        </Route>
+        {/* </Route> */}
 
         {/**Route not found */}
         <Route path="*" element={<NotFoundPage />} />

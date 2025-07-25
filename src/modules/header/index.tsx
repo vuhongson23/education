@@ -8,24 +8,44 @@ import { routes } from "~/constant/routes";
 import { isAuthenticated } from "~/utils/auth";
 import { DashboardIcon, LogOutIcon, UserIcon } from "~/assets/icons";
 
+interface HeaderProps {
+  kind?: "primary" | "secondary";
+}
+
 const cx = classNames.bind(styles);
 
-const Header = () => {
+const Header = ({ kind = "primary" }: HeaderProps) => {
   const navigate = useNavigate();
   const user = isAuthenticated();
 
+  const handleLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+  };
+
   return (
-    <div className={cx("wrapper")}>
+    <div className={cx("wrapper", `wrapper--${kind}`)}>
       <div className={cx("wrapper-left")}>
-        <img src="logo.png" alt="" className={cx("logo")} />
-        <div className={cx("nav-bar")}>
-          <NavLink to={routes.home}>Home</NavLink>
-          <NavLink to={routes.blog}>Blog</NavLink>
-          <NavLink to={routes.contact}>Contact</NavLink>
-        </div>
+        <img
+          src="logo.png"
+          alt=""
+          className={cx("logo")}
+          onClick={() => navigate("/")}
+        />
+        {kind === "primary" ? (
+          <div className={cx("nav-bar")}>
+            <NavLink to={routes.home}>Home</NavLink>
+            <NavLink to={routes.blog}>Blog</NavLink>
+            <NavLink to={routes.contact}>Contact</NavLink>
+          </div>
+        ) : (
+          <div onClick={() => navigate("/")} className={cx("brand-title")}>
+            Monkey blogging
+          </div>
+        )}
       </div>
       <div className={cx("wrapper-right")}>
-        <Search />
+        {kind === "primary" && <Search />}
         {user && user?.userName ? (
           <div className={cx("user-action")}>
             <p>
@@ -44,7 +64,11 @@ const Header = () => {
               <NavLink to={routes.dashboard} className={cx("controller-item")}>
                 <DashboardIcon /> Dashboard
               </NavLink>
-              <NavLink to={routes.dashboard} className={cx("controller-item")}>
+              <NavLink
+                to={routes.dashboard}
+                className={cx("controller-item")}
+                onClick={handleLogout}
+              >
                 <LogOutIcon /> Log out
               </NavLink>
             </div>
