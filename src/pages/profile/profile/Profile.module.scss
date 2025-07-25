@@ -1,3 +1,39 @@
 .wrapper {
   padding: 20px;
 }
+
+.user-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.update-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.user-input {
+  width: 100%;
+  :global([class*="label"]) {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  :global([class*="wrapper-input"]) {
+    width: 100%;
+    height: 45px;
+    padding: 8px;
+  }
+}
+
+.update-btn {
+  padding: 10px 0;
+  width: 200px;
+}

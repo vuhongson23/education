@@ -6,6 +6,7 @@ interface InputProps {
   name: string;
   label?: string;
   placeholder?: string;
+  className?: string;
   rightIcon?: React.ReactNode;
   type?: "text" | "email" | "password" | "number";
   onClick?: () => void;
@@ -19,13 +20,18 @@ const Input = ({
   label,
   placeholder,
   rightIcon,
+  className,
   type = "text",
   onClick = () => {},
   ...props
 }: InputProps) => {
   const [field, meta] = useField(name);
   return (
-    <div className={cx("wrapper")}>
+    <div
+      className={cx("wrapper", {
+        [className || ""]: !!className,
+      })}
+    >
       <label className={cx("label")} htmlFor={name}>
         {label}
       </label>
