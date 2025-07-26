@@ -15,7 +15,6 @@ const cx = classNames.bind(styles);
 
 const ProfileLayout = () => {
   const { id } = useParams();
-  console.log("🚀 ~ ProfileLayout ~ id:", id);
   const user = isAuthenticated();
 
   const menus = [
@@ -39,12 +38,12 @@ const ProfileLayout = () => {
       title: "Setting",
       to: "/profile/setting",
     },
-    {
-      icon: LogOutIcon,
-      title: "Log out",
-      to: "",
-    },
   ];
+
+  const handleLogOut = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+  };
 
   return (
     <div className={cx("wrapper")}>
@@ -68,6 +67,18 @@ const ProfileLayout = () => {
               </NavLink>
             );
           })}
+          <NavLink
+            className={({ isActive }) =>
+              cx("side-bar--menu-item", {
+                active: isActive,
+              })
+            }
+            to={""}
+            onClick={handleLogOut}
+          >
+            <LogOutIcon />
+            Log out
+          </NavLink>
         </div>
       </div>
       <div className={cx("content")}>

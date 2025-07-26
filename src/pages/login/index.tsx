@@ -43,7 +43,6 @@ const LoginPage = () => {
     };
     try {
       const response = await postDataAPI(URL_LOGIN, payload);
-      console.log("🚀 ~ handleLogin ~ response:", response);
       if (response?.data?.code === 200) {
         localStorage.setItem("accessToken", response?.data?.token?.accessToken);
         localStorage.setItem(

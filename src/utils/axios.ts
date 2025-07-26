@@ -13,7 +13,7 @@ interface IOptions {
 
 const getAuthData = () => {
   const data =
-    localStorage.getItem(import.meta.env.VITE_KEY_LOCAL_STORAGE_AUTH) ||
+    localStorage.getItem("user_infor") ||
     sessionStorage.getItem(import.meta.env.VITE_KEY_SESSION_STORAGE_AUTH);
   return typeof data === "string" ? JSON.parse(data) : data;
 };
@@ -44,10 +44,11 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const tokenapp = getAuthData();
+    console.log("🚀 ~ tokenapp:", tokenapp);
 
     // Gắn token vào header
-    if (tokenapp?.accessToken) {
-      config.headers["Authorization"] = `Bearer ${tokenapp.accessToken}`;
+    if (tokenapp?.token?.accessToken) {
+      config.headers["Authorization"] = `Bearer ${tokenapp.token.accessToken}`;
     }
 
     // Set header type theo FormData

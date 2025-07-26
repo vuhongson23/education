@@ -7,6 +7,9 @@ import FormRow from "~/components/form-row";
 import Input from "~/components/input";
 import Button from "~/components/button";
 import { isAuthenticated } from "~/utils/auth";
+import { toast } from "react-toastify";
+import { putDataAPI } from "~/utils/api";
+import { URL_UPDATE_USER } from "~/api/end-point";
 
 interface UserFormValue {
   firstName: string;
@@ -14,6 +17,7 @@ interface UserFormValue {
   email: string;
   address: string;
   avatar: string;
+  phoneNumber: string;
   age: number;
 }
 
@@ -21,24 +25,34 @@ const cx = classNames.bind(styles);
 
 const Profile = () => {
   const user = isAuthenticated();
-  console.log("🚀 ~ Profile ~ user:", user);
-  const handleUpdateUser = (values: UserFormValue) => {
+
+  const handleUpdateUser = async (values: UserFormValue) => {
     const payload = {
       ...values,
       age: Number(values.age),
     };
-    console.log("🚀 ~ handleUpdateUser ~ payload:", payload);
+    try {
+      const response = await putDataAPI(URL_UPDATE_USER + user?.id, payload);
+      console.log("🚀 ~ handleUpdateUser ~ response:", response);
+      if (response?.status === 200) {
+        toast.success("Cập nhật thông tin thành công!");
+      }
+    } catch (error) {
+      toast.error("Cập nhật thông tin thất bại");
+    }
   };
+
   return (
     <div className={cx("wrapper")}>
       <Formik
         initialValues={{
-          firstName: user?.firstName,
-          lastName: user?.lastName,
-          email: user?.email,
-          address: user?.address,
-          avatar: user?.avatar,
-          age: 18,
+          firstName: user?.firstName || "",
+          lastName: user?.lastName || "",
+          email: user?.email || "",
+          address: user?.address || "",
+          avatar: user?.avatar || "",
+          phoneNumber: user?.phoneNumber || "",
+          age: user?.age || "",
         }}
         onSubmit={handleUpdateUser}
       >
@@ -66,9 +80,9 @@ const Profile = () => {
               <FormRow>
                 <Input
                   type="text"
-                  name="age"
-                  label="Age"
-                  placeholder="18"
+                  name="phoneNumber"
+                  label="Phone"
+                  placeholder="0864153753"
                   className={cx("user-input")}
                 />
                 <Input
@@ -79,13 +93,22 @@ const Profile = () => {
                   className={cx("user-input")}
                 />
               </FormRow>
-              <Input
-                type="text"
-                name="address"
-                label="Address"
-                placeholder="Phường A, xã B, tỉnh D,..."
-                className={cx("user-input")}
-              />
+              <FormRow>
+                <Input
+                  type="text"
+                  name="age"
+                  label="Age"
+                  placeholder="18"
+                  className={cx("user-input")}
+                />
+                <Input
+                  type="text"
+                  name="address"
+                  label="Address"
+                  placeholder="Phường A, xã B, tỉnh D,..."
+                  className={cx("user-input")}
+                />
+              </FormRow>
               <Button
                 type="submit"
                 variant="primary"
