@@ -44,7 +44,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const tokenapp = getAuthData();
-    console.log("🚀 ~ tokenapp:", tokenapp);
 
     // Gắn token vào header
     if (tokenapp?.token?.accessToken) {

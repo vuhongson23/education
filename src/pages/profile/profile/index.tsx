@@ -8,8 +8,10 @@ import Input from "~/components/input";
 import Button from "~/components/button";
 import { isAuthenticated } from "~/utils/auth";
 import { toast } from "react-toastify";
-import { putDataAPI } from "~/utils/api";
-import { URL_UPDATE_USER } from "~/api/end-point";
+import { getDataAPI, putDataAPI } from "~/utils/api";
+import { URL_GET_USER_INFO, URL_UPDATE_USER } from "~/api/end-point";
+import { useEffect, useState } from "react";
+import Loading from "~/components/loading";
 
 interface UserFormValue {
   firstName: string;
@@ -24,6 +26,8 @@ interface UserFormValue {
 const cx = classNames.bind(styles);
 
 const Profile = () => {
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const user = isAuthenticated();
 
   const handleUpdateUser = async (values: UserFormValue) => {
@@ -33,7 +37,6 @@ const Profile = () => {
     };
     try {
       const response = await putDataAPI(URL_UPDATE_USER + user?.id, payload);
-      console.log("🚀 ~ handleUpdateUser ~ response:", response);
       if (response?.status === 200) {
         toast.success("Cập nhật thông tin thành công!");
       }
@@ -42,17 +45,36 @@ const Profile = () => {
     }
   };
 
+  const fetchUserInfo = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getDataAPI(URL_GET_USER_INFO + user?.id);
+      if (response?.status === 200) {
+        setUserInfo(response?.data);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      toast.error("Lấy thông tin người dùng thất bại");
+    }
+  };
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+  if (!userInfo && isLoading) return <Loading />;
+
   return (
     <div className={cx("wrapper")}>
       <Formik
         initialValues={{
-          firstName: user?.firstName || "",
-          lastName: user?.lastName || "",
-          email: user?.email || "",
-          address: user?.address || "",
-          avatar: user?.avatar || "",
-          phoneNumber: user?.phoneNumber || "",
-          age: user?.age || "",
+          firstName: userInfo?.firstName || "",
+          lastName: userInfo?.lastName || "",
+          email: userInfo?.email || "",
+          address: userInfo?.address || "",
+          avatar: userInfo?.avatar || "",
+          phoneNumber: userInfo?.phoneNumber || "",
+          age: userInfo?.age || "",
         }}
         onSubmit={handleUpdateUser}
       >

@@ -9,4 +9,5 @@ export const URL_LOGIN = "/auth/login";
 export const URL_UPLOAD_IMAGE = "/upload/image";
 
 // User
+export const URL_GET_USER_INFO = "/users/";
 export const URL_UPDATE_USER = "/users/update/";
