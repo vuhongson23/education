@@ -70,27 +70,31 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
+    console.log("active");
     const user = getAuthData();
+    console.log("🚀 ~ user:", user);
     const originRequest = error.config;
     if (error.response.status === 401 && !originRequest._retry) {
       originRequest._retry = true;
       try {
         const response = await axiosInstance.post(URL_REFRESH_TOKEN, {
-          refToken: user?.refreshToken,
+          refToken: user?.token?.refreshToken,
         });
+        console.log("🚀 ~ response:", response);
 
         const newAccessToken = response?.data?.accessToken;
+        console.log("🚀 ~ newAccessToken:", newAccessToken);
+        const refreshToken = user?.token?.refreshToken;
 
         const userData = {
           ...user,
-          accessToken: newAccessToken,
+          token: { refreshToken, accessToken: newAccessToken },
         };
+        console.log("🚀 ~ userData:", userData);
 
         // Lưu lại accessToken mới vào local storage & session storage
-        localStorage.setItem(
-          import.meta.env.VITE_KEY_LOCAL_STORAGE_AUTH,
-          JSON.stringify(userData)
-        );
+        localStorage.setItem("accessToken", newAccessToken);
+        localStorage.setItem("user_infor", JSON.stringify(userData));
         sessionStorage.setItem(
           import.meta.env.VITE_KEY_SESSION_STORAGE_AUTH,
           JSON.stringify(userData)

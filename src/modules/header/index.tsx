@@ -21,6 +21,7 @@ const Header = ({ kind = "primary" }: HeaderProps) => {
   const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
+    navigate(routes.home);
   };
 
   const profileLink = user?.id ? `/profile/${user.id}` : routes.profileByUser;

@@ -1,5 +1,5 @@
 // Refresh token
-export const URL_REFRESH_TOKEN = "/auth/refresh-token";
+export const URL_REFRESH_TOKEN = "/auth/refresh-auth";
 
 // Register
 export const URL_REGISTER_ACCOUNT = "/auth/register";
