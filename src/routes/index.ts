@@ -7,7 +7,6 @@ import HomePage from "~/pages/home";
 import LoginPage from "~/pages/login";
 import RegisterPage from "~/pages/register";
 import { routes } from "~/constant/routes";
-// import ProfileLayout from "~/pages/profile";
 import SecondaryLayout from "~/layouts/secondary-layout";
 import Profile from "~/pages/profile/profile";
 import Posts from "~/pages/profile/posts";

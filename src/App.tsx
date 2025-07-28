@@ -10,6 +10,11 @@ import AuthLayout from "~/layouts/auth";
 import SecondaryLayout from "~/layouts/secondary-layout";
 import ProfileLayout from "~/pages/profile";
 import { isAuthenticated } from "~/utils/auth";
+import Posts from "~/pages/profile/posts";
+import AllPosts from "~/pages/profile/posts/all-posts";
+import ApprovedPosts from "~/pages/profile/posts/approved-posts";
+import PendingPosts from "~/pages/profile/posts/pending-posts";
+import { routes } from "./constant/routes";
 
 function App() {
   const user = isAuthenticated();
@@ -41,21 +46,25 @@ function App() {
 
         {/**Private Route */}
         <Route element={<PrivateRoute />}>
-          {privateRoutes.map((route) => {
-            const Elem = route.element;
-            return (
-              <Route element={<SecondaryLayout />}>
+          <Route element={<SecondaryLayout />}>
+            {privateRoutes.map((route) => {
+              const Elem = route.element;
+              return (
                 <Route key={route.path} path={route.path} element={<Elem />} />
-              </Route>
-            );
-          })}
+              );
+            })}
+          </Route>
+
           {/**Profile route */}
           <Route element={<SecondaryLayout />}>
             <Route element={<ProfileLayout />}>
+              {/**Profile route */}
               <Route
                 path={"/profile"}
                 element={<Navigate to={profileLink} replace />}
               />
+
+              {/**Profile menu */}
               {profileRoute.map((route) => {
                 const Elem = route.element;
                 return (
@@ -66,6 +75,19 @@ function App() {
                   />
                 );
               })}
+
+              {/**Post tabs */}
+              <Route path={routes.profilePost} element={<Posts />}>
+                <Route path="/profile/posts/all" element={<AllPosts />} />
+                <Route
+                  path="/profile/posts/approved"
+                  element={<ApprovedPosts />}
+                />
+                <Route
+                  path="/profile/posts/pending"
+                  element={<PendingPosts />}
+                />
+              </Route>
             </Route>
           </Route>
         </Route>
