@@ -56,7 +56,7 @@ const Header = ({ kind = "primary" }: HeaderProps) => {
               <span className={cx("user-name")}>{user?.userName}</span>
             </p>
             <img
-              src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={import.meta.env.VITE_PREFIX_URL + user?.avatar}
               alt="avatar"
               className={cx("user-avatar")}
             />
@@ -64,9 +64,14 @@ const Header = ({ kind = "primary" }: HeaderProps) => {
               <NavLink to={profileLink} className={cx("controller-item")}>
                 <UserIcon /> Profile
               </NavLink>
-              <NavLink to={routes.dashboard} className={cx("controller-item")}>
-                <DashboardIcon /> Dashboard
-              </NavLink>
+              {user.role === 1 && (
+                <NavLink
+                  to={routes.dashboard}
+                  className={cx("controller-item")}
+                >
+                  <DashboardIcon /> Dashboard
+                </NavLink>
+              )}
               <NavLink
                 to={routes.dashboard}
                 className={cx("controller-item")}
