@@ -1,0 +1,246 @@
+import React from "react";
+import classNames from "classnames/bind";
+
+import styles from "./MultiInput.module.scss";
+import type { ChangeEvent, JSX } from "react";
+
+type InputType =
+  | "text"
+  | "password"
+  | "email"
+  | "number"
+  | "checkbox"
+  | "radio"
+  | "select"
+  | "textarea";
+
+type Options = {
+  value: string;
+  label: string;
+};
+
+interface BaseInputProps {
+  type: InputType;
+  name: string;
+  label?: string;
+  required?: boolean;
+  className?: string;
+  placeholder?: string;
+}
+
+interface TextInputProps extends BaseInputProps {
+  type: "text" | "password" | "email";
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+}
+
+interface NumberInputProps extends BaseInputProps {
+  type: "number";
+  value: string | number;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  min?: number;
+  max?: number;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+}
+
+interface CheckboxInputProps extends BaseInputProps {
+  type: "checkbox";
+  value: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+interface RadioInputProps extends BaseInputProps {
+  type: "radio";
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  options: Options[];
+}
+
+interface SelectInputProps extends BaseInputProps {
+  type: "select";
+  value: string;
+  options: Options[];
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+}
+
+interface TextAreaInputProps extends BaseInputProps {
+  type: "textarea";
+  value: string;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  row?: number;
+}
+
+type UniversalInputProps =
+  | TextInputProps
+  | NumberInputProps
+  | RadioInputProps
+  | SelectInputProps
+  | TextAreaInputProps
+  | CheckboxInputProps;
+
+const cx = classNames.bind(styles);
+
+const MultiInput: React.FC<UniversalInputProps> = (props) => {
+  const { type, name, label, required = false, className = "" } = props;
+
+  const renderInputs = (): JSX.Element => {
+    switch (type) {
+      case "text":
+      case "email":
+      case "password": {
+        const { value, onChange, placeholder, leftIcon, rightIcon } =
+          props as TextInputProps;
+        return (
+          <div className={cx("wrapper-text")}>
+            {leftIcon && <span className={cx("left-icon")}>{leftIcon}</span>}
+            <input
+              type={type}
+              name={name}
+              value={value}
+              placeholder={placeholder}
+              onChange={onChange}
+              className={cx("text-input-type", {
+                [className || ""]: !!className,
+              })}
+              required={required}
+            />
+            {rightIcon && <span className={cx("right-icon")}>{rightIcon}</span>}
+          </div>
+        );
+      }
+
+      case "number": {
+        const { value, onChange, placeholder, min, max, rightIcon, leftIcon } =
+          props as NumberInputProps;
+        return (
+          <div className={cx("wrapper-number")}>
+            {leftIcon && <span className={cx("left-icon")}>{leftIcon}</span>}
+            <input
+              type={type}
+              value={value}
+              name={name}
+              min={min}
+              max={max}
+              placeholder={placeholder}
+              className={cx("number-input-type", {
+                [className || ""]: !!className,
+              })}
+              onChange={onChange}
+              required={required}
+            />
+            {rightIcon && <span className={cx("right-icon")}>{rightIcon}</span>}
+          </div>
+        );
+      }
+
+      case "checkbox": {
+        const { value, onChange } = props as CheckboxInputProps;
+        return (
+          <div className={cx("wrapper-checkbox")}>
+            <label className={cx("custom-checkbox")}>
+              <input
+                id={name}
+                type={type}
+                name={name}
+                checked={value}
+                onChange={onChange}
+                required={required}
+              />
+              <div
+                className={cx("checkbox-input-type", {
+                  [className || ""]: !!className,
+                })}
+              />
+              <span>{label}</span>
+            </label>
+          </div>
+        );
+      }
+
+      case "radio": {
+        const { value, onChange, options } = props as RadioInputProps;
+        return (
+          <div
+            className={cx("radio-list", {
+              [className || ""]: !!className,
+            })}
+          >
+            {options?.map((option) => (
+              <div key={option.value} className={cx("radio-item")}>
+                <input
+                  id={option.value}
+                  type={type}
+                  value={option.value}
+                  checked={value === option.value}
+                  onChange={onChange}
+                  className={cx("radio-input-type")}
+                  required={required}
+                />
+                <label htmlFor={option.value}>{option.label}</label>
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+      case "select": {
+        const { value, onChange, options } = props as SelectInputProps;
+        return (
+          <select
+            name={name}
+            value={value}
+            onChange={onChange}
+            required={required}
+            className={cx("select-input-type", {
+              [className || ""]: !!className,
+            })}
+          >
+            <option className={cx("title")} value="">
+              ----------{label}----------
+            </option>
+            {options?.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        );
+      }
+
+      case "textarea": {
+        const { value, onChange, row, placeholder } =
+          props as TextAreaInputProps;
+        return (
+          <textarea
+            name={name}
+            value={value}
+            rows={row}
+            placeholder={placeholder}
+            className={cx("textarea-input-type", {
+              [className || ""]: !!className,
+            })}
+            onChange={onChange}
+            required={required}
+          />
+        );
+      }
+      default:
+        return <div>Dạng input không hỗ trợ</div>;
+    }
+  };
+  return (
+    <div className={cx("wrapper")}>
+      {label && type !== "checkbox" && (
+        <label htmlFor={name}>
+          {label} {required && <span className={cx("required")}>*</span>}
+        </label>
+      )}
+      {renderInputs()}
+    </div>
+  );
+};
+
+export default MultiInput;

@@ -19,6 +19,7 @@ import { routes } from "./constant/routes";
 function App() {
   const user = isAuthenticated();
   const profileLink = `/profile/${user?.id || "user"}`;
+
   return (
     <div>
       <ToastContainer

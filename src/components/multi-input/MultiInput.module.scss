@@ -1,0 +1,132 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+// Text: text, password, email
+.wrapper-text {
+  position: relative;
+
+  .text-input-type {
+    width: 300px;
+    padding: 10px 10px;
+    border: 1px solid black;
+    border-radius: 8px;
+    font-size: 18px;
+    line-height: 1;
+  }
+}
+
+// Number
+.wrapper-number {
+  position: relative;
+
+  .number-input-type {
+    width: 300px;
+    padding: 10px 10px;
+    border: 1px solid black;
+    border-radius: 8px;
+    font-size: 18px;
+    line-height: 1;
+
+    // Ẩn spinner cho Chrome, Safari, Edge, Opera
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    // Ẩn spinner cho Firefox
+    -moz-appearance: textfield;
+  }
+}
+
+// Checkbox
+.wrapper-checkbox {
+  input {
+    display: none;
+  }
+
+  .custom-checkbox {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+  }
+
+  input:checked + .checkbox-input-type {
+    width: 12px;
+    height: 12px;
+    border: 2px solid white;
+    box-shadow: 0 0 0px 2px blue;
+    background-color: blue;
+    border-radius: 50%;
+  }
+
+  .checkbox-input-type {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0px 1px black;
+    background-color: white;
+    cursor: pointer;
+  }
+
+  label {
+    margin-left: 10px;
+    user-select: none;
+  }
+}
+
+// Radio
+.radio-list {
+  display: flex;
+  column-gap: 20px;
+
+  .radio-item {
+    display: flex;
+    column-gap: 5px;
+  }
+}
+
+// Select
+.select-input-type {
+  width: 300px;
+  font-size: 18px;
+  padding: 10px;
+  border: 1px solid #999999;
+  border-radius: 8px;
+
+  .title {
+    text-align: center;
+  }
+}
+
+// Textarea
+.textarea-input-type {
+  width: 300px;
+  border: 1px solid #999999;
+  border-radius: 8px;
+}
+
+.right-icon,
+.left-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.left-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 10px;
+}
+
+.right-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 10px;
+}
