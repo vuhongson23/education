@@ -1,15 +1,10 @@
 import classNames from "classnames/bind";
 
 import styles from "./ProfilePage.module.scss";
-import { NavLink, Outlet, useParams } from "react-router-dom";
-import {
-  GearIcon,
-  HeartCircleIcon,
-  LogOutIcon,
-  PostIcon,
-  UserIcon,
-} from "~/assets/icons";
+import { Outlet, useParams } from "react-router-dom";
+import { GearIcon, HeartCircleIcon, PostIcon, UserIcon } from "~/assets/icons";
 import { isAuthenticated } from "~/utils/auth";
+import SideBar from "~/components/side-bar";
 
 const cx = classNames.bind(styles);
 
@@ -19,68 +14,30 @@ const ProfileLayout = () => {
 
   const menus = [
     {
-      icon: UserIcon,
+      icon: <UserIcon />,
       title: "Profile",
       to: `/profile/${id || user?.id || user}`,
     },
     {
-      icon: PostIcon,
+      icon: <PostIcon />,
       title: "Posts",
       to: "/profile/posts",
     },
     {
-      icon: HeartCircleIcon,
+      icon: <HeartCircleIcon />,
       title: "Favourite",
       to: "/profile/favourite",
     },
     {
-      icon: GearIcon,
+      icon: <GearIcon />,
       title: "Setting",
       to: "/profile/setting",
     },
   ];
 
-  const handleLogOut = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-  };
-
   return (
     <div className={cx("wrapper")}>
-      <div className={cx("side-bar")}>
-        <h2 className={cx("side-bar--title")}>Profile</h2>
-        <div className={cx("side-bar--menu-list")}>
-          {menus.map((menu) => {
-            const Icon = menu.icon;
-            return (
-              <NavLink
-                key={menu.title}
-                className={({ isActive }) =>
-                  cx("side-bar--menu-item", {
-                    active: isActive,
-                  })
-                }
-                to={menu.to}
-              >
-                <Icon />
-                {menu.title}
-              </NavLink>
-            );
-          })}
-          <NavLink
-            className={({ isActive }) =>
-              cx("side-bar--menu-item", {
-                active: isActive,
-              })
-            }
-            to={""}
-            onClick={handleLogOut}
-          >
-            <LogOutIcon />
-            Log out
-          </NavLink>
-        </div>
-      </div>
+      <SideBar menu={menus}></SideBar>
       <div className={cx("content")}>
         <Outlet />
       </div>

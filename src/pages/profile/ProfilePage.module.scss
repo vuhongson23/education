@@ -6,49 +6,6 @@
   margin-top: 40px;
 }
 
-.side-bar {
-  width: 250px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px 5px rgba(219, 211, 211, 0.603);
-
-  .side-bar--title {
-    font-weight: 600;
-    padding: 13px;
-    padding-bottom: 0;
-  }
-
-  .side-bar--menu-list {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .side-bar--menu-item {
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
-    font-size: 18px;
-    font-weight: 500;
-    padding: 13px;
-    transition: all 0.2s linear;
-
-    &:hover {
-      background-color: #14dc9970;
-      color: white;
-    }
-
-    &:last-child {
-      border-top: 1px solid #999999;
-      border-radius: 0 0 10px 10px;
-    }
-  }
-}
-
-.active {
-  background-color: #14dc9970;
-  color: white;
-}
-
 .content {
   flex: 1;
   background-color: white;
