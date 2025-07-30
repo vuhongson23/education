@@ -37,7 +37,7 @@ const ProfileLayout = () => {
 
   return (
     <div className={cx("wrapper")}>
-      <SideBar menu={menus}></SideBar>
+      <SideBar title="Profile" menu={menus}></SideBar>
       <div className={cx("content")}>
         <Outlet />
       </div>

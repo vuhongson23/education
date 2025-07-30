@@ -2,16 +2,17 @@ import AuthLayout from "~/layouts/auth";
 import MainLayout from "~/layouts/main-layout";
 import BlogPage from "~/pages/blog";
 import ContactPage from "~/pages/contact";
-import DashboardPage from "~/pages/dashboard";
 import HomePage from "~/pages/home";
 import LoginPage from "~/pages/login";
 import RegisterPage from "~/pages/register";
 import { routes } from "~/constant/routes";
-import SecondaryLayout from "~/layouts/secondary-layout";
 import Profile from "~/pages/profile/profile";
 import Posts from "~/pages/profile/posts";
 import Favourite from "~/pages/profile/favourite";
 import Setting from "~/pages/profile/setting";
+import UserManager from "~/pages/dashboard/users";
+import CategoryManager from "~/pages/dashboard/category";
+import DashboardPage from "~/pages/dashboard/dashboard";
 
 const authRoute = [
   {
@@ -44,14 +45,6 @@ const publicRoutes = [
   },
 ];
 
-const privateRoutes = [
-  {
-    path: routes.dashboard,
-    element: DashboardPage,
-    layout: SecondaryLayout,
-  },
-];
-
 const profileRoute = [
   {
     path: routes.profileByUser,
@@ -71,4 +64,19 @@ const profileRoute = [
   },
 ];
 
-export { authRoute, publicRoutes, privateRoutes, profileRoute };
+const dashboardRoute = [
+  {
+    path: routes.dashboardManager,
+    element: DashboardPage,
+  },
+  {
+    path: routes.userManager,
+    element: UserManager,
+  },
+  {
+    path: routes.categoryManager,
+    element: CategoryManager,
+  },
+];
+
+export { authRoute, publicRoutes, profileRoute, dashboardRoute };

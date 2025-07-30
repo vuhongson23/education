@@ -4,10 +4,17 @@ export const routes = {
   register: "/register",
   blog: "/blog",
   contact: "/contact",
-  dashboard: "/dashboard",
+
+  // Profile
   profile: "/profile",
   profileByUser: "/profile/:id",
   profilePost: "/profile/posts",
   profileSetting: "/profile/setting",
   profileFavourite: "/profile/favourite",
+
+  // Dashboard
+  dashboard: "/dashboard",
+  dashboardManager: "/dashboard/manage",
+  userManager: "/dashboard/users",
+  categoryManager: "/dashboard/category",
 };

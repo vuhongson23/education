@@ -2,7 +2,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import PublicRoute from "~/routes/public/PublicRoute";
-import { authRoute, privateRoutes, profileRoute, publicRoutes } from "~/routes";
+import {
+  authRoute,
+  dashboardRoute,
+  profileRoute,
+  publicRoutes,
+} from "~/routes";
 import PrivateRoute from "~/routes/private/PrivateRoute";
 import MainLayout from "~/layouts/main-layout";
 import NotFoundPage from "~/pages/not-found";
@@ -15,6 +20,7 @@ import AllPosts from "~/pages/profile/posts/all-posts";
 import ApprovedPosts from "~/pages/profile/posts/approved-posts";
 import PendingPosts from "~/pages/profile/posts/pending-posts";
 import { routes } from "./constant/routes";
+import DashboardLayout from "./pages/dashboard";
 
 function App() {
   const user = isAuthenticated();
@@ -47,15 +53,6 @@ function App() {
 
         {/**Private Route */}
         <Route element={<PrivateRoute />}>
-          <Route element={<SecondaryLayout />}>
-            {privateRoutes.map((route) => {
-              const Elem = route.element;
-              return (
-                <Route key={route.path} path={route.path} element={<Elem />} />
-              );
-            })}
-          </Route>
-
           {/**Profile route */}
           <Route element={<SecondaryLayout />}>
             <Route element={<ProfileLayout />}>
@@ -89,6 +86,19 @@ function App() {
                   element={<PendingPosts />}
                 />
               </Route>
+            </Route>
+          </Route>
+          {/**Dashboard route */}
+          <Route element={<SecondaryLayout />}>
+            <Route element={<DashboardLayout />}>
+              <Route
+                path={routes.dashboard}
+                element={<Navigate to={routes.dashboardManager} replace />}
+              ></Route>
+              {dashboardRoute.map((route) => {
+                const Elem = route.element;
+                return <Route path={route.path} element={<Elem />}></Route>;
+              })}
             </Route>
           </Route>
         </Route>

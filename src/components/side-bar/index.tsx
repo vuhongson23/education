@@ -5,25 +5,26 @@ import { NavLink } from "react-router-dom";
 import { LogOutIcon } from "~/assets/icons";
 
 interface SideBarProps {
-  menu: {
+  menu?: {
     icon: React.ReactElement;
     title: string;
     to: string;
   }[];
+  title?: string;
 }
 
 const cx = classNames.bind(styles);
 
-const SideBar = ({ menu }: SideBarProps) => {
+const SideBar = ({ menu, title }: SideBarProps) => {
   const handleLogOut = () => {
     localStorage.clear();
     sessionStorage.clear();
   };
   return (
     <div className={cx("side-bar")}>
-      <h2 className={cx("side-bar--title")}>Profile</h2>
+      <h2 className={cx("side-bar--title")}>{title}</h2>
       <div className={cx("side-bar--menu-list")}>
-        {menu.map((item) => {
+        {menu?.map((item) => {
           return (
             <NavLink
               key={item.title}
@@ -45,7 +46,7 @@ const SideBar = ({ menu }: SideBarProps) => {
               active: isActive,
             })
           }
-          to={""}
+          to={"/logout"}
           onClick={handleLogOut}
         >
           <LogOutIcon />
