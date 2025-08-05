@@ -1,12 +1,12 @@
+import { useState, type ChangeEvent } from "react";
 import classNames from "classnames/bind";
+import { Table } from "antd";
 
 import styles from "./UserManager.module.scss";
 import MultiInput from "~/components/multi-input";
 import { GlassIcon } from "~/assets/icons";
-import { useState, type ChangeEvent } from "react";
 import useDebounce from "~/hooks/useDebounce";
 import Button from "~/components/button";
-import { Table } from "antd";
 import ColumnUserTable from "./column";
 
 const cx = classNames.bind(styles);

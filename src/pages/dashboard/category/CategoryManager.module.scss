@@ -8,3 +8,44 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.content {
+  width: 100%;
+
+  .content-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px dashed rgb(216, 207, 207);
+
+    .search-input {
+      width: 500px !important;
+
+      :global([class*="text-input-type"]) {
+        height: 51px;
+      }
+    }
+
+    .cre-btn {
+      width: 170px;
+      height: 50px;
+      padding: 0 15px;
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+
+  .content-table {
+    margin-top: 30px;
+  }
+}
+
+.tag {
+  width: 65px;
+  padding: 3px 6px;
+  border: 1px solid black;
+  border-radius: 12px;
+}

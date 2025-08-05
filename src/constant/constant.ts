@@ -3,3 +3,8 @@ export const USER_STATUS = {
   IN_ACTIVE: "pending",
   BANNED: "banned",
 };
+
+export const CATEGORY_STATUS = {
+  ACTIVE: "active",
+  DELETE: "delete",
+};
