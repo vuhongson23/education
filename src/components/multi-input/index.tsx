@@ -94,7 +94,11 @@ const MultiInput: React.FC<UniversalInputProps> = (props) => {
         const { value, onChange, placeholder, leftIcon, rightIcon } =
           props as TextInputProps;
         return (
-          <div className={cx("wrapper-text")}>
+          <div
+            className={cx("wrapper-text", {
+              [className || ""]: !!className,
+            })}
+          >
             {leftIcon && <span className={cx("left-icon")}>{leftIcon}</span>}
             <input
               type={type}
@@ -102,9 +106,7 @@ const MultiInput: React.FC<UniversalInputProps> = (props) => {
               value={value}
               placeholder={placeholder}
               onChange={onChange}
-              className={cx("text-input-type", {
-                [className || ""]: !!className,
-              })}
+              className={cx("text-input-type")}
               required={required}
             />
             {rightIcon && <span className={cx("right-icon")}>{rightIcon}</span>}

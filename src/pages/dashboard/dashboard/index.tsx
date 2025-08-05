@@ -1,23 +1,24 @@
 import classNames from "classnames/bind";
+import { Empty } from "antd";
 
 import styles from "./DashboardPage.module.scss";
-import { UserSolidIcon } from "~/assets/icons";
+import CardInfo from "~/components/card-dashboard";
 
 const cx = classNames.bind(styles);
 
 const DashboardPage = () => {
   return (
     <div className={cx("wrapper")}>
+      <h1 className={cx("title")}>Dashboard</h1>
       <div className={cx("summary")}>
-        <div className={cx("card-info")}>
-          <div className={cx("card-info--header")}>
-            <span>
-              <UserSolidIcon />
-            </span>
-            Users
-          </div>
-          <div className={cx("card-info--count")}>200</div>
-        </div>
+        {Array(4)
+          .fill(0)
+          .map((_, index) => (
+            <CardInfo key={index} />
+          ))}
+      </div>
+      <div className={cx("content")}>
+        <Empty />
       </div>
     </div>
   );

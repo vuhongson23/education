@@ -46,7 +46,9 @@ function App() {
           <Route element={<AuthLayout />}>
             {authRoute.map((route) => {
               const Page = route.element;
-              return <Route path={route.path} element={<Page />} />;
+              return (
+                <Route key={route.path} path={route.path} element={<Page />} />
+              );
             })}
           </Route>
         </Route>
@@ -94,10 +96,16 @@ function App() {
               <Route
                 path={routes.dashboard}
                 element={<Navigate to={routes.dashboardManager} replace />}
-              ></Route>
+              />
               {dashboardRoute.map((route) => {
                 const Elem = route.element;
-                return <Route path={route.path} element={<Elem />}></Route>;
+                return (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={<Elem />}
+                  />
+                );
               })}
             </Route>
           </Route>
@@ -107,7 +115,9 @@ function App() {
         <Route element={<MainLayout />}>
           {publicRoutes.map((route) => {
             const Page = route.element;
-            return <Route path={route.path} element={<Page />} />;
+            return (
+              <Route key={route.path} path={route.path} element={<Page />} />
+            );
           })}
         </Route>
 

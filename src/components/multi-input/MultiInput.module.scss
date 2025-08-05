@@ -7,14 +7,16 @@
 // Text: text, password, email
 .wrapper-text {
   position: relative;
+  width: 400px;
 
   .text-input-type {
-    width: 300px;
+    width: 100%;
     padding: 10px 10px;
     border: 1px solid black;
     border-radius: 8px;
     font-size: 18px;
     line-height: 1;
+    outline: none;
   }
 }
 

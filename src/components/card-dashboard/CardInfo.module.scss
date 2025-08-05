@@ -1,0 +1,28 @@
+.card-info {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  width: 100%;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 0 10px 5px rgba(219, 211, 211, 0.603);
+
+  .card-info--icon {
+    color: rgb(0, 94, 255);
+  }
+
+  .card-info--content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+
+    .card-info--content__title {
+      color: #9f9c9c;
+    }
+
+    .card-info--content__count {
+      font-weight: 600;
+      font-size: 23px;
+    }
+  }
+}
