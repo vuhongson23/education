@@ -1,0 +1,32 @@
+.summary {
+  display: flex;
+  align-items: center;
+  column-gap: 30px;
+  margin-top: 40px;
+  margin-left: 20px;
+
+  .card-info {
+    width: 170px;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 0 10px 5px #9999996e;
+
+    .card-info--header {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+      font-weight: 500;
+      font-size: 18px;
+      color: #999999;
+
+      span {
+        color: blue;
+      }
+    }
+
+    .card-info--count {
+      font-size: 28px;
+      font-weight: 700;
+    }
+  }
+}
