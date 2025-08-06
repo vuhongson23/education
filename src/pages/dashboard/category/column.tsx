@@ -58,7 +58,6 @@ const ColumnCategoryTable = (
       dataIndex: "status",
       key: "status",
       render: (value: string) => {
-        console.log("🚀 ~ value:", value);
         switch (value) {
           case CATEGORY_STATUS.ACTIVE: {
             return (

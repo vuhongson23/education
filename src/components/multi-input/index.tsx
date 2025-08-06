@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 
 import styles from "./MultiInput.module.scss";
 import type { ChangeEvent, JSX } from "react";
+import { useField, useFormikContext } from "formik";
 
 type InputType =
   | "text"
@@ -30,8 +31,8 @@ interface BaseInputProps {
 
 interface TextInputProps extends BaseInputProps {
   type: "text" | "password" | "email";
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
 }
@@ -86,6 +87,10 @@ const cx = classNames.bind(styles);
 const MultiInput: React.FC<UniversalInputProps> = (props) => {
   const { type, name, label, required = false, className = "" } = props;
 
+  // Kiểm tra xem Input có trong Formik context hay không
+  const formikContext = useFormikContext();
+  const isInFormikContext = Boolean(formikContext);
+
   const renderInputs = (): JSX.Element => {
     switch (type) {
       case "text":
@@ -93,25 +98,51 @@ const MultiInput: React.FC<UniversalInputProps> = (props) => {
       case "password": {
         const { value, onChange, placeholder, leftIcon, rightIcon } =
           props as TextInputProps;
-        return (
-          <div
-            className={cx("wrapper-text", {
-              [className || ""]: !!className,
-            })}
-          >
-            {leftIcon && <span className={cx("left-icon")}>{leftIcon}</span>}
-            <input
-              type={type}
-              name={name}
-              value={value}
-              placeholder={placeholder}
-              onChange={onChange}
-              className={cx("text-input-type")}
-              required={required}
-            />
-            {rightIcon && <span className={cx("right-icon")}>{rightIcon}</span>}
-          </div>
-        );
+        if (isInFormikContext) {
+          const [field, _] = useField(name);
+          return (
+            <div
+              className={cx("wrapper-text", {
+                [className || ""]: !!className,
+              })}
+            >
+              {leftIcon && <span className={cx("left-icon")}>{leftIcon}</span>}
+              <input
+                {...field}
+                id={name}
+                type={type}
+                placeholder={placeholder}
+                className={cx("text-input-type")}
+                required={required}
+              />
+              {rightIcon && (
+                <span className={cx("right-icon")}>{rightIcon}</span>
+              )}
+            </div>
+          );
+        } else {
+          return (
+            <div
+              className={cx("wrapper-text", {
+                [className || ""]: !!className,
+              })}
+            >
+              {leftIcon && <span className={cx("left-icon")}>{leftIcon}</span>}
+              <input
+                type={type}
+                name={name}
+                value={value || ""}
+                onChange={onChange}
+                placeholder={placeholder}
+                className={cx("text-input-type")}
+                required={required}
+              />
+              {rightIcon && (
+                <span className={cx("right-icon")}>{rightIcon}</span>
+              )}
+            </div>
+          );
+        }
       }
 
       case "number": {

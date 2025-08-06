@@ -38,9 +38,6 @@
       -webkit-appearance: none;
       margin: 0;
     }
-
-    // Ẩn spinner cho Firefox
-    -moz-appearance: textfield;
   }
 }
 
@@ -131,4 +128,18 @@
   align-items: center;
   justify-content: center;
   right: 10px;
+}
+
+input:focus {
+  border-color: var(--primary-color) !important;
+}
+
+label {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.required {
+  color: rgba(255, 34, 4, 0.919);
+  font-weight: 500;
 }

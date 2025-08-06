@@ -3,13 +3,21 @@ import { useState, type ChangeEvent } from "react";
 
 import styles from "./CategoryManager.module.scss";
 import MultiInput from "~/components/multi-input";
-import useDebounce from "~/hooks/useDebounce";
+// import useDebounce from "~/hooks/useDebounce";
 import { GlassIcon } from "~/assets/icons";
 import Button from "~/components/button";
 import { Table } from "antd";
 import ColumnCategoryTable from "./column";
+import Modal from "~/modules/modal";
+import FormRow from "~/components/form-row";
 
 const cx = classNames.bind(styles);
+
+const initValue = {
+  name: "",
+  image: "",
+  password: "",
+};
 
 const fakeCategoryList = [
   {
@@ -56,8 +64,8 @@ const fakeCategoryList = [
 
 const CategoryManager = () => {
   const [searchParams, setSearchParams] = useState<string>("");
-  const debounceValue = useDebounce(searchParams, 500);
-  console.log("🚀 ~ UserManager ~ debounceValue:", debounceValue);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  // const debounceValue = useDebounce(searchParams, 500);
 
   const cateList = fakeCategoryList.map((category) => {
     return {
@@ -88,6 +96,15 @@ const CategoryManager = () => {
     handleDeleteCategory
   );
 
+  const handleSubmit = (values: any) => {
+    console.log("🚀 ~ handleSubmit ~ values:", values);
+    setShowModal(false);
+  };
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
   return (
     <div className={cx("wrapper")}>
       <h1 className={cx("title")}>Category manager</h1>
@@ -103,7 +120,11 @@ const CategoryManager = () => {
             placeholder="Enter category name..."
             className={cx("search-input")}
           />
-          <Button variant="primary" className={cx("cre-btn")}>
+          <Button
+            variant="primary"
+            className={cx("cre-btn")}
+            onClick={handleShowModal}
+          >
             Create new
           </Button>
         </div>
@@ -111,6 +132,37 @@ const CategoryManager = () => {
           <Table dataSource={cateList} columns={columns}></Table>
         </div>
       </div>
+      {showModal && (
+        <Modal
+          onSubmit={handleSubmit}
+          isShow={showModal}
+          onShowModal={setShowModal}
+          initialValues={initValue}
+          className={cx("category-form")}
+        >
+          <FormRow>
+            <MultiInput
+              type="text"
+              name="image"
+              placeholder="Enter your image..."
+              label="Image"
+            />
+            <MultiInput
+              type="text"
+              name="name"
+              placeholder="Enter your name..."
+              label="Name"
+            />
+          </FormRow>
+          <FormRow>
+            <MultiInput
+              type="text"
+              name="password"
+              placeholder="Enter your password..."
+            />
+          </FormRow>
+        </Modal>
+      )}
     </div>
   );
 };

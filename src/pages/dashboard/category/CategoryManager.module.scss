@@ -49,3 +49,7 @@
   border: 1px solid black;
   border-radius: 12px;
 }
+
+.category-form > :global([class*="wrapper"]) {
+  width: auto !important;
+}
