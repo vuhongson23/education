@@ -21,18 +21,18 @@ const ColumnUserTable = (
     },
     {
       title: "Username",
-      dataIndex: "username",
-      key: "username",
+      dataIndex: "userName",
+      key: "userName",
     },
     {
       title: "Avatar",
       dataIndex: "avatar",
       key: "avatar",
       render: (value: string) => {
-        // const avatarUrl = value ? import.meta.env.VITE_PREFIX_URL + value : "";
+        const avatarUrl = value && import.meta.env.VITE_PREFIX_URL + value;
         return (
           <img
-            src={value}
+            src={avatarUrl}
             alt={"avatar"}
             style={{
               width: 50,
@@ -62,8 +62,7 @@ const ColumnUserTable = (
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (value: string) => {
-        console.log("🚀 ~ value:", value);
+      render: (value: number) => {
         switch (value) {
           case USER_STATUS.ACTIVE: {
             return (
@@ -75,7 +74,7 @@ const ColumnUserTable = (
                   color: "#389e0d",
                 }}
               >
-                {value}
+                active
               </span>
             );
           }
@@ -90,7 +89,7 @@ const ColumnUserTable = (
                   color: "#0958d9",
                 }}
               >
-                {value}
+                pending
               </span>
             );
           }
@@ -105,7 +104,7 @@ const ColumnUserTable = (
                   color: "#cf1322",
                 }}
               >
-                {value}
+                banned
               </span>
             );
           }

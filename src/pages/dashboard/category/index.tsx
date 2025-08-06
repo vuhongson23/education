@@ -1,15 +1,15 @@
 import classNames from "classnames/bind";
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 
 import styles from "./CategoryManager.module.scss";
 import MultiInput from "~/components/multi-input";
-// import useDebounce from "~/hooks/useDebounce";
-import { GlassIcon } from "~/assets/icons";
+import useDebounce from "~/hooks/useDebounce";
 import Button from "~/components/button";
 import { Table } from "antd";
 import ColumnCategoryTable from "./column";
 import Modal from "~/modules/modal";
 import FormRow from "~/components/form-row";
+import Search from "~/components/search";
 
 const cx = classNames.bind(styles);
 
@@ -65,7 +65,7 @@ const fakeCategoryList = [
 const CategoryManager = () => {
   const [searchParams, setSearchParams] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
-  // const debounceValue = useDebounce(searchParams, 500);
+  const debounceValue = useDebounce(searchParams, 500);
 
   const cateList = fakeCategoryList.map((category) => {
     return {
@@ -73,6 +73,8 @@ const CategoryManager = () => {
       key: category.id,
     };
   });
+
+  useEffect(() => {}, [debounceValue]);
 
   const handleViewInfo = (id: number) => {
     console.log("🚀 ~ handleViewInfo ~ id:", id);
@@ -111,15 +113,7 @@ const CategoryManager = () => {
       <div className={cx("content")}>
         <div className={cx("content-filter")}>
           {/**Filter and create user button */}
-          <MultiInput
-            name="search"
-            value={searchParams}
-            type="text"
-            rightIcon={<GlassIcon />}
-            onChange={handleSearchParams}
-            placeholder="Enter category name..."
-            className={cx("search-input")}
-          />
+          <Search onChange={handleSearchParams}></Search>
           <Button
             variant="primary"
             className={cx("cre-btn")}

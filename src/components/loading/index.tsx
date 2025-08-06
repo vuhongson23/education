@@ -4,9 +4,13 @@ import styles from "./Loading.module.scss";
 
 const cx = classNames.bind(styles);
 
-const Loading = () => {
+const Loading = ({ className }: { className?: string }) => {
   return (
-    <div className={cx("wrapper-loading")}>
+    <div
+      className={cx("wrapper-loading", {
+        [className || ""]: !!className,
+      })}
+    >
       <div className={cx("spin")}></div>
       <img src="/logo.png" alt="logo" />
     </div>
