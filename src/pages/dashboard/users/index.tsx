@@ -8,8 +8,25 @@ import { GlassIcon } from "~/assets/icons";
 import useDebounce from "~/hooks/useDebounce";
 import Button from "~/components/button";
 import ColumnUserTable from "./column";
+import Modal from "~/modules/modal";
+
+interface FormValues {
+  [key: string]: any;
+}
 
 const cx = classNames.bind(styles);
+
+const initValue: FormValues = {
+  userName: "",
+  firstName: "",
+  lastName: "",
+  age: 18,
+  email: "",
+  avatar: "",
+  phoneNumber: "",
+  status: "",
+  address: "",
+};
 
 const fakeUsers = [
   {
@@ -56,6 +73,7 @@ const fakeUsers = [
 
 const UserManager = () => {
   const [searchParams, setSearchParams] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
   const debounceValue = useDebounce(searchParams, 500);
   console.log("🚀 ~ UserManager ~ debounceValue:", debounceValue);
   const userList = fakeUsers.map((user) => {
@@ -85,6 +103,15 @@ const UserManager = () => {
     setSearchParams(e.target.value);
   };
 
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleSubmit = (values: FormValues) => {
+    console.log("🚀 ~ handleSubmit ~ values:", values);
+    setShowModal(false);
+  };
+
   return (
     <div className={cx("wrapper")}>
       <h1 className={cx("title")}>User manager</h1>
@@ -101,7 +128,11 @@ const UserManager = () => {
             className={cx("search-input")}
           />
 
-          <Button variant="primary" className={cx("cre-btn")}>
+          <Button
+            variant="primary"
+            className={cx("cre-btn")}
+            onClick={handleOpenModal}
+          >
             Create new user
           </Button>
         </div>
@@ -111,6 +142,13 @@ const UserManager = () => {
           <Table columns={columns} dataSource={userList}></Table>
         </div>
       </div>
+      {showModal && (
+        <Modal
+          initialValues={initValue}
+          onSubmit={handleSubmit}
+          onShowModal={setShowModal}
+        ></Modal>
+      )}
     </div>
   );
 };
