@@ -13,6 +13,7 @@ import Setting from "~/pages/profile/setting";
 import UserManager from "~/pages/dashboard/users";
 import CategoryManager from "~/pages/dashboard/category";
 import DashboardPage from "~/pages/dashboard/dashboard";
+import PostManager from "~/pages/dashboard/posts";
 
 const authRoute = [
   {
@@ -72,6 +73,10 @@ const dashboardRoute = [
   {
     path: routes.userManager,
     element: UserManager,
+  },
+  {
+    path: routes.postManager,
+    element: PostManager,
   },
   {
     path: routes.categoryManager,

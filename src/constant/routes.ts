@@ -15,6 +15,7 @@ export const routes = {
   // Dashboard
   dashboard: "/dashboard",
   dashboardManager: "/dashboard/manage",
+  postManager: "/dashboard/posts",
   userManager: "/dashboard/users",
   categoryManager: "/dashboard/category",
 };

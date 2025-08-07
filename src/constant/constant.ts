@@ -8,3 +8,10 @@ export const CATEGORY_STATUS = {
   ACTIVE: "active",
   DELETE: "delete",
 };
+
+export const POST_STATUS = {
+  PUBLISHED: "published",
+  DRAFT: "draft",
+  PENDING: "pending",
+  REJECTED: "rejected",
+};
