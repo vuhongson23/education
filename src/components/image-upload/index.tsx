@@ -18,8 +18,6 @@ const cx = classNames.bind(styles);
 
 const Upload = ({ name, disabled, ...props }: UploadProps) => {
   const [field, meta, helpers] = useField(name);
-  console.log("🚀 ~ Upload ~ field:", field);
-  // const user = isAuthenticated();
 
   const handleUploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
     const MAX_SIZE_UPLOAD = 5;

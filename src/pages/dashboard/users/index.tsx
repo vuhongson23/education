@@ -8,11 +8,12 @@ import Button from "~/components/button";
 import ColumnUserTable from "./column";
 import Modal from "~/modules/modal";
 import { toast } from "react-toastify";
-import { deleteDataAPI, getDataAPINoAuth } from "~/utils/api";
+import { deleteDataAPI, getDataAPINoAuth, putDataAPI } from "~/utils/api";
 import {
   URL_DELETE_USER,
   URL_GET_ALL_USER,
   URL_GET_USER_INFO,
+  URL_UPDATE_USER,
 } from "~/api/end-point";
 import Loading from "~/components/loading";
 import Search from "~/components/search";
@@ -74,6 +75,7 @@ const UserManager = () => {
   const [users, setUsers] = useState<Users[]>([]);
   const [action, setAction] = useState(ACTION_FORM.VIEW);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [titleForm, setTitleForm] = useState("");
   const debounceValue = useDebounce(searchParams, 500);
 
   const fetchData = async () => {
@@ -126,9 +128,11 @@ const UserManager = () => {
   // Lấy thông tin người dùng
   const handleViewInfo = async (id: number) => {
     try {
+      setTitleForm("Thông tin người dùng");
       const userData = await fetchUserInfo(id);
       if (userData) {
         setUserInfo(userData);
+        setAction(ACTION_FORM.VIEW);
         setShowModal(true);
       }
     } catch (error) {
@@ -139,6 +143,7 @@ const UserManager = () => {
 
   // Update thông tin người dùng
   const handleUpdateUser = async (id: number) => {
+    setTitleForm("Cập nhật người dùng");
     try {
       const userData = await fetchUserInfo(id);
       if (userData) {
@@ -149,6 +154,13 @@ const UserManager = () => {
     } catch (error) {
       console.log("🚀 ~ handleUpdateUser ~ error:", error);
     }
+  };
+
+  // Tạo người dùng mới
+  const handleCreateNewUser = () => {
+    setTitleForm("Tạo người dùng mới");
+    setShowModal(true);
+    setAction(ACTION_FORM.CREATE);
   };
 
   // Delete người dùng
@@ -178,13 +190,23 @@ const UserManager = () => {
     setSearchParams(e.target.value);
   };
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  const handleSubmit = (values: FormValues) => {
-    console.log("🚀 ~ handleSubmit ~ values:", values);
-    setShowModal(false);
+  const handleSubmit = async (values: FormValues) => {
+    if (action === ACTION_FORM.UPDATE) {
+      const userId = values?.id;
+      try {
+        const response = await putDataAPI(URL_UPDATE_USER + userId, values);
+        if (response?.status === 200) {
+          toast.success(`Cập nhật thông tin người dùng ${userId} thành công`);
+          await fetchData();
+          setShowModal(false);
+        }
+      } catch (error) {
+        console.log("🚀 ~ handleSubmit ~ error:", error);
+        toast.error(`Cập nhật thông tin người dùng ${userId} thất bại`);
+      }
+    } else if (action === ACTION_FORM.CREATE) {
+      console.log("active create");
+    }
   };
 
   return (
@@ -197,7 +219,7 @@ const UserManager = () => {
           <Button
             variant="primary"
             className={cx("cre-btn")}
-            onClick={handleOpenModal}
+            onClick={handleCreateNewUser}
           >
             Create new user
           </Button>
@@ -219,8 +241,9 @@ const UserManager = () => {
           onShowModal={setShowModal}
           onSetValue={setUserInfo}
           className={cx("modal-user")}
+          action={action}
         >
-          <h2>Thông tin người dùng</h2>
+          <h2>{titleForm}</h2>
           <Upload name="avatar" disabled={action === ACTION_FORM.VIEW} />
           <div className={cx("user-name")}>{userInfo?.userName}</div>
           <FormRow>

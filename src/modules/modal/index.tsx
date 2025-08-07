@@ -5,6 +5,7 @@ import { Formik, type FormikProps } from "formik";
 import { CloseIcon } from "~/assets/icons";
 import Button from "~/components/button";
 import { useEffect, useRef } from "react";
+import { ACTION_FORM } from "~/constant/constant";
 
 type FormValues = {
   [key: string]: any;
@@ -17,6 +18,7 @@ interface ModalProps {
   isShowCloseButton?: boolean;
   validationSchema?: any;
   className?: string;
+  action?: string;
   onShowModal?: (v: boolean) => void;
   onSubmit?: (v: FormValues) => void;
   onSetValue?: (v: FormValues) => void;
@@ -30,11 +32,19 @@ const Modal = ({
   isShowCloseButton = false,
   validationSchema,
   className,
+  action,
   onSubmit = () => {},
   onShowModal = () => {},
   onSetValue = () => {},
 }: ModalProps) => {
   const divRef = useRef<HTMLDivElement>(null);
+  let isShowSaveBtn: boolean = false;
+
+  if (action === ACTION_FORM.CREATE || action === ACTION_FORM.UPDATE) {
+    isShowSaveBtn = true;
+  } else {
+    isShowSaveBtn = false;
+  }
 
   const handleCloseModal = () => {
     onShowModal(false);
@@ -80,7 +90,7 @@ const Modal = ({
               </div>
             )}
             <div className={cx("form")}>{children}</div>
-            {isShowCloseButton && (
+            {isShowSaveBtn && (
               <div className={cx("footer")}>
                 <Button
                   type="submit"
