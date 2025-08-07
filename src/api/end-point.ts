@@ -13,3 +13,4 @@ export const URL_GET_USER_INFO = "/users/";
 export const URL_UPDATE_USER = "/users/update/";
 export const URL_GET_ALL_USER = "/users/all";
 export const URL_DELETE_USER = "/users/delete/";
+export const URL_CREATE_NEW_USER_IN_DASHBOARD = "auth/dashboard/register";

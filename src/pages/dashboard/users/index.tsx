@@ -8,8 +8,14 @@ import Button from "~/components/button";
 import ColumnUserTable from "./column";
 import Modal from "~/modules/modal";
 import { toast } from "react-toastify";
-import { deleteDataAPI, getDataAPINoAuth, putDataAPI } from "~/utils/api";
 import {
+  deleteDataAPI,
+  getDataAPINoAuth,
+  postDataAPINoAuth,
+  putDataAPI,
+} from "~/utils/api";
+import {
+  URL_CREATE_NEW_USER_IN_DASHBOARD,
   URL_DELETE_USER,
   URL_GET_ALL_USER,
   URL_GET_USER_INFO,
@@ -49,8 +55,9 @@ const initValue: FormValues = {
   email: "",
   avatar: "",
   phoneNumber: "",
-  status: "",
+  status: 1,
   address: "",
+  role: 0,
 };
 
 const statusOptions = [
@@ -65,6 +72,17 @@ const statusOptions = [
   {
     label: "Banned",
     value: USER_STATUS.BANNED,
+  },
+];
+
+const roleOptions = [
+  {
+    label: "Admin",
+    value: 1,
+  },
+  {
+    label: "User",
+    value: 0,
   },
 ];
 
@@ -106,12 +124,11 @@ const UserManager = () => {
       const userData = response?.data;
 
       if (response?.status === 200) {
-        const { refreshToken, role, ...userDataNoRoleValueAndRefreshToken } =
+        const { refreshToken, ...userDataNoRoleValueAndRefreshToken } =
           userData;
         return userDataNoRoleValueAndRefreshToken;
       }
     } catch (error) {
-      console.log("🚀 ~ handleViewInfo ~ error:", error);
       toast.error(`Lấy thông tin người dùng #${id} thất bại!`);
     }
   };
@@ -201,11 +218,25 @@ const UserManager = () => {
           setShowModal(false);
         }
       } catch (error) {
-        console.log("🚀 ~ handleSubmit ~ error:", error);
         toast.error(`Cập nhật thông tin người dùng ${userId} thất bại`);
+        setShowModal(false);
       }
     } else if (action === ACTION_FORM.CREATE) {
-      console.log("active create");
+      console.log("🚀 ~ handleSubmit ~ values:", values);
+      try {
+        const response = await postDataAPINoAuth(
+          URL_CREATE_NEW_USER_IN_DASHBOARD,
+          values
+        );
+        if (response?.status === 201) {
+          toast.success("Tạo người dùng mới thành công");
+          await fetchData();
+          setShowModal(false);
+        }
+      } catch (error) {
+        toast.error("Tạo người dùng mới thất bại");
+        setShowModal(false);
+      }
     }
   };
 
@@ -245,7 +276,19 @@ const UserManager = () => {
         >
           <h2>{titleForm}</h2>
           <Upload name="avatar" disabled={action === ACTION_FORM.VIEW} />
-          <div className={cx("user-name")}>{userInfo?.userName}</div>
+
+          {action === ACTION_FORM.CREATE || action === ACTION_FORM.UPDATE ? (
+            <MultiInput
+              type="text"
+              name="userName"
+              label="Username"
+              placeholder="Sơn"
+              className={cx("user-input")}
+              disabled={action === ACTION_FORM.VIEW}
+            />
+          ) : (
+            <div className={cx("user-name")}>{userInfo?.userName}</div>
+          )}
           <FormRow>
             <MultiInput
               type="text"
@@ -300,14 +343,24 @@ const UserManager = () => {
               disabled={action === ACTION_FORM.VIEW}
             />
           </FormRow>
-          <MultiInput
-            type="radio"
-            name="status"
-            label="Status"
-            options={statusOptions}
-            className={cx("user-input")}
-            disabled={action === ACTION_FORM.VIEW}
-          />
+          <FormRow>
+            <MultiInput
+              type="radio"
+              name="status"
+              label="Status"
+              options={statusOptions}
+              className={cx("user-input")}
+              disabled={action === ACTION_FORM.VIEW}
+            />
+            <MultiInput
+              type="radio"
+              name="role"
+              label="Role"
+              options={roleOptions}
+              className={cx("user-input")}
+              disabled={action === ACTION_FORM.VIEW}
+            />
+          </FormRow>
         </Modal>
       )}
     </div>

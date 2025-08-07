@@ -1,5 +1,6 @@
 .wrapper {
-  display: flex;
-  column-gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr; // chia đều 2 cột
+  gap: 20px; // khoảng cách giữa các cột
   width: 100%;
 }
