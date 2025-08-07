@@ -15,3 +15,9 @@ export const POST_STATUS = {
   PENDING: "pending",
   REJECTED: "rejected",
 };
+
+export const ACTION_FORM = {
+  VIEW: "view",
+  CREATE: "create",
+  UPDATE: "update",
+};

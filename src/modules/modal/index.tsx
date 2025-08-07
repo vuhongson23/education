@@ -18,7 +18,8 @@ interface ModalProps {
   validationSchema?: any;
   className?: string;
   onShowModal?: (v: boolean) => void;
-  onSubmit: (v: FormValues) => void;
+  onSubmit?: (v: FormValues) => void;
+  onSetValue?: (v: FormValues) => void;
 }
 
 const cx = classNames.bind(styles);
@@ -31,6 +32,7 @@ const Modal = ({
   className,
   onSubmit = () => {},
   onShowModal = () => {},
+  onSetValue = () => {},
 }: ModalProps) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -42,6 +44,7 @@ const Modal = ({
     const handleClickOutside = (e: MouseEvent) => {
       if (divRef.current && !divRef.current.contains(e.target as Node)) {
         handleCloseModal();
+        onSetValue({});
       }
     };
 
@@ -56,6 +59,7 @@ const Modal = ({
 
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
@@ -76,15 +80,17 @@ const Modal = ({
               </div>
             )}
             <div className={cx("form")}>{children}</div>
-            <div className={cx("footer")}>
-              <Button
-                type="submit"
-                variant="primary"
-                className={cx("save-btn")}
-              >
-                Save
-              </Button>
-            </div>
+            {isShowCloseButton && (
+              <div className={cx("footer")}>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className={cx("save-btn")}
+                >
+                  Save
+                </Button>
+              </div>
+            )}
           </div>
         </form>
       )}

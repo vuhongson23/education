@@ -16,7 +16,7 @@ type InputType =
   | "textarea";
 
 type Options = {
-  value: string;
+  value: number;
   label: string;
 };
 
@@ -27,6 +27,7 @@ interface BaseInputProps {
   required?: boolean;
   className?: string;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 interface TextInputProps extends BaseInputProps {
@@ -55,8 +56,8 @@ interface CheckboxInputProps extends BaseInputProps {
 
 interface RadioInputProps extends BaseInputProps {
   type: "radio";
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  value?: number;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   options: Options[];
 }
 
@@ -96,7 +97,7 @@ const MultiInput: React.FC<UniversalInputProps> = (props) => {
       case "text":
       case "email":
       case "password": {
-        const { value, onChange, placeholder, leftIcon, rightIcon } =
+        const { value, onChange, placeholder, leftIcon, rightIcon, disabled } =
           props as TextInputProps;
         if (isInFormikContext) {
           const [field, _] = useField(name);
@@ -114,6 +115,7 @@ const MultiInput: React.FC<UniversalInputProps> = (props) => {
                 placeholder={placeholder}
                 className={cx("text-input-type")}
                 required={required}
+                disabled={disabled}
               />
               {rightIcon && (
                 <span className={cx("right-icon")}>{rightIcon}</span>
@@ -136,6 +138,7 @@ const MultiInput: React.FC<UniversalInputProps> = (props) => {
                 placeholder={placeholder}
                 className={cx("text-input-type")}
                 required={required}
+                disabled={disabled}
               />
               {rightIcon && (
                 <span className={cx("right-icon")}>{rightIcon}</span>
@@ -194,29 +197,63 @@ const MultiInput: React.FC<UniversalInputProps> = (props) => {
       }
 
       case "radio": {
-        const { value, onChange, options } = props as RadioInputProps;
-        return (
-          <div
-            className={cx("radio-list", {
-              [className || ""]: !!className,
-            })}
-          >
-            {options?.map((option) => (
-              <div key={option.value} className={cx("radio-item")}>
-                <input
-                  id={option.value}
-                  type={type}
-                  value={option.value}
-                  checked={value === option.value}
-                  onChange={onChange}
-                  className={cx("radio-input-type")}
-                  required={required}
-                />
-                <label htmlFor={option.value}>{option.label}</label>
-              </div>
-            ))}
-          </div>
-        );
+        const { value, onChange, options, disabled } = props as RadioInputProps;
+        if (isInFormikContext) {
+          const [field, _, helpers] = useField(name);
+          return (
+            <div
+              className={cx("radio-list", {
+                [className || ""]: !!className,
+              })}
+            >
+              {options?.map((option) => {
+                const radioId = `${name}_${option.value}`;
+                return (
+                  <div key={option.value} className={cx("radio-item")}>
+                    <input
+                      id={radioId}
+                      type={type}
+                      name={name}
+                      value={option.value}
+                      checked={Number(field.value) === option.value}
+                      onChange={(e) => {
+                        helpers.setValue(Number(e.target.value));
+                      }}
+                      className={cx("radio-input-type")}
+                      required={required}
+                      disabled={disabled}
+                    />
+                    <label htmlFor={radioId}>{option.label}</label>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        } else {
+          return (
+            <div
+              className={cx("radio-list", {
+                [className || ""]: !!className,
+              })}
+            >
+              {options?.map((option) => (
+                <div key={option.value} className={cx("radio-item")}>
+                  <input
+                    id={"option.value"}
+                    type={type}
+                    value={option.value}
+                    checked={value === option.value}
+                    onChange={onChange}
+                    className={cx("radio-input-type")}
+                    required={required}
+                    disabled={disabled}
+                  />
+                  <label htmlFor={"option.value"}>{option.label}</label>
+                </div>
+              ))}
+            </div>
+          );
+        }
       }
 
       case "select": {

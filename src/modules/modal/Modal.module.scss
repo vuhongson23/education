@@ -8,15 +8,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: -300px;
   transition: all 0.25s linear;
 
   .wrapper {
-    width: 600px;
     border-radius: 12px;
     background-color: white;
     transition: all 0.25s linear;
-    padding-top: 10px;
+    padding: 20px 0 30px;
 
     .header {
       display: flex;
@@ -43,7 +41,7 @@
         font-weight: 500;
         font-size: 19px;
         padding: 7px 10px;
-        margin: 0 10px 10px 0;
+        margin: 30px 10px 10px 0;
       }
     }
   }

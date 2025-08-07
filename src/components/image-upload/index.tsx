@@ -2,7 +2,6 @@ import classNames from "classnames/bind";
 import { useField } from "formik";
 
 import styles from "./Upload.module.scss";
-import { isAuthenticated } from "~/utils/auth";
 import { UserOutlined } from "@ant-design/icons";
 import type { ChangeEvent } from "react";
 import { toast } from "react-toastify";
@@ -11,14 +10,16 @@ import { URL_UPLOAD_IMAGE } from "~/api/end-point";
 
 interface UploadProps {
   name?: string;
+  disabled?: boolean;
   [key: string]: any;
 }
 
 const cx = classNames.bind(styles);
 
-const Upload = ({ name, ...props }: UploadProps) => {
-  const [_, meta, helpers] = useField(name);
-  const user = isAuthenticated();
+const Upload = ({ name, disabled, ...props }: UploadProps) => {
+  const [field, meta, helpers] = useField(name);
+  console.log("🚀 ~ Upload ~ field:", field);
+  // const user = isAuthenticated();
 
   const handleUploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
     const MAX_SIZE_UPLOAD = 5;
@@ -51,12 +52,13 @@ const Upload = ({ name, ...props }: UploadProps) => {
         id="file"
         className={cx("input-file")}
         onChange={handleUploadImage}
+        disabled={disabled}
         accept="image/*"
       />
       <label htmlFor="file" className={cx("label-file")}>
-        {user && user?.avatar ? (
+        {field && field?.value ? (
           <img
-            src={import.meta.env.VITE_PREFIX_URL + user.avatar}
+            src={import.meta.env.VITE_PREFIX_URL + field.value}
             alt="avatar"
             className={cx("avatar")}
           />
