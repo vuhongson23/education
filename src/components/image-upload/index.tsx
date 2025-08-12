@@ -11,12 +11,20 @@ import { URL_UPLOAD_IMAGE } from "~/api/end-point";
 interface UploadProps {
   name?: string;
   disabled?: boolean;
+  className?: string;
+  defaultImage?: string;
   [key: string]: any;
 }
 
 const cx = classNames.bind(styles);
 
-const Upload = ({ name, disabled, ...props }: UploadProps) => {
+const Upload = ({
+  name,
+  disabled,
+  className,
+  defaultImage = "/img-upload.png",
+  ...props
+}: UploadProps) => {
   const [field, meta, helpers] = useField(name);
 
   const handleUploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +51,11 @@ const Upload = ({ name, disabled, ...props }: UploadProps) => {
   };
 
   return (
-    <div className={cx("upload-image")}>
+    <div
+      className={cx("upload-image", {
+        [className || ""]: !!className,
+      })}
+    >
       <input
         {...props}
         type="file"
@@ -61,7 +73,11 @@ const Upload = ({ name, disabled, ...props }: UploadProps) => {
             className={cx("avatar")}
           />
         ) : (
-          <UserOutlined style={{ fontSize: 120 }} />
+          <img
+            src={defaultImage}
+            alt="avatar"
+            className={cx("avatar-default")}
+          />
         )}
         <div className={cx("select-btn")}>Chọn ảnh</div>
       </label>

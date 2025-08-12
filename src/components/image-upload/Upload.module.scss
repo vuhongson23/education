@@ -52,6 +52,16 @@
     border-radius: 100px;
     object-fit: cover;
   }
+
+  .avatar-default {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 70%;
+    object-fit: cover;
+  }
 }
 
 .label-file:hover {

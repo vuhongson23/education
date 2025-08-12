@@ -5,6 +5,8 @@ import Search from "~/components/search";
 import Button from "~/components/button";
 import { Table } from "antd";
 import CategoryTableColumn from "./column";
+import { useNavigate } from "react-router-dom";
+import { routes } from "~/constant/routes";
 
 const cx = classNames.bind(styles);
 
@@ -92,6 +94,8 @@ export const fakePostData = [
 ];
 
 const PostManager = () => {
+  const navigate = useNavigate();
+
   const handleViewInfo = (id: number) => {
     console.log("🚀 ~ handleViewInfo ~ id:", id);
   };
@@ -122,7 +126,11 @@ const PostManager = () => {
         <div className={cx("content-filter")}>
           <Search />
 
-          <Button variant="primary" className={cx("cre-btn")}>
+          <Button
+            variant="primary"
+            className={cx("cre-btn")}
+            onClick={() => navigate(routes.postAddNew)}
+          >
             Write new post
           </Button>
         </div>

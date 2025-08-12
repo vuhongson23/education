@@ -8,7 +8,6 @@ const cx = classNames.bind(styles);
 
 const ApprovedPosts = () => {
   const value: any = useOutletContext();
-  console.log("🚀 ~ ApprovedPosts ~ value:", value);
   return (
     <div className={cx("wrapper")}>
       {value.map((item: any) => {

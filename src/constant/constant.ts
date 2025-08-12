@@ -10,10 +10,10 @@ export const CATEGORY_STATUS = {
 };
 
 export const POST_STATUS = {
-  PUBLISHED: "published",
-  DRAFT: "draft",
-  PENDING: "pending",
-  REJECTED: "rejected",
+  PUBLISHED: 1,
+  DRAFT: 2,
+  PENDING: 3,
+  REJECTED: 4,
 };
 
 export const ACTION_FORM = {

@@ -7,7 +7,7 @@
 // Text: text, password, email
 .wrapper-text {
   position: relative;
-  width: 400px;
+  width: 100%;
 
   .text-input-type {
     width: 100%;
@@ -82,20 +82,23 @@
 .radio-list {
   display: flex;
   column-gap: 20px;
+  outline: none;
 
   .radio-item {
     display: flex;
     column-gap: 5px;
+    outline: none;
   }
 }
 
 // Select
 .select-input-type {
-  width: 300px;
+  width: 100%;
   font-size: 18px;
   padding: 10px;
   border: 1px solid #999999;
   border-radius: 8px;
+  outline: none;
 
   .title {
     text-align: center;
@@ -130,7 +133,8 @@
   right: 10px;
 }
 
-input:focus {
+input:focus,
+select:focus {
   border-color: var(--primary-color) !important;
 }
 

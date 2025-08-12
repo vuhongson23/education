@@ -14,6 +14,7 @@ import UserManager from "~/pages/dashboard/users";
 import CategoryManager from "~/pages/dashboard/category";
 import DashboardPage from "~/pages/dashboard/dashboard";
 import PostManager from "~/pages/dashboard/posts";
+import WriteNewPost from "~/pages/dashboard/write-new-post";
 
 const authRoute = [
   {
@@ -81,6 +82,10 @@ const dashboardRoute = [
   {
     path: routes.categoryManager,
     element: CategoryManager,
+  },
+  {
+    path: routes.postAddNew,
+    element: WriteNewPost,
   },
 ];
 

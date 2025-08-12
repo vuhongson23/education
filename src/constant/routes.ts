@@ -18,4 +18,5 @@ export const routes = {
   postManager: "/dashboard/posts",
   userManager: "/dashboard/users",
   categoryManager: "/dashboard/category",
+  postAddNew: "/dashboard/add-post",
 };

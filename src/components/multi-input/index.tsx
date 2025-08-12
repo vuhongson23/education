@@ -16,7 +16,7 @@ type InputType =
   | "textarea";
 
 type Options = {
-  value: number;
+  value: number | string;
   label: string;
 };
 
@@ -56,16 +56,16 @@ interface CheckboxInputProps extends BaseInputProps {
 
 interface RadioInputProps extends BaseInputProps {
   type: "radio";
-  value?: number;
+  value?: number | string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   options: Options[];
 }
 
 interface SelectInputProps extends BaseInputProps {
   type: "select";
-  value: string;
+  value?: string;
   options: Options[];
-  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 interface TextAreaInputProps extends BaseInputProps {
@@ -258,26 +258,50 @@ const MultiInput: React.FC<UniversalInputProps> = (props) => {
 
       case "select": {
         const { value, onChange, options } = props as SelectInputProps;
-        return (
-          <select
-            name={name}
-            value={value}
-            onChange={onChange}
-            required={required}
-            className={cx("select-input-type", {
-              [className || ""]: !!className,
-            })}
-          >
-            <option className={cx("title")} value="">
-              ----------{label}----------
-            </option>
-            {options?.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+
+        if (isInFormikContext) {
+          const [field, _] = useField(name);
+          return (
+            <select
+              {...field}
+              name={name}
+              required={required}
+              className={cx("select-input-type", {
+                [className || ""]: !!className,
+              })}
+            >
+              <option className={cx("title")} value="">
+                ----------{label}----------
               </option>
-            ))}
-          </select>
-        );
+              {options?.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          );
+        } else {
+          return (
+            <select
+              name={name}
+              value={value}
+              onChange={onChange}
+              required={required}
+              className={cx("select-input-type", {
+                [className || ""]: !!className,
+              })}
+            >
+              <option className={cx("title")} value="">
+                ----------{label}----------
+              </option>
+              {options?.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          );
+        }
       }
 
       case "textarea": {
