@@ -2,7 +2,6 @@ import classNames from "classnames/bind";
 import { useField } from "formik";
 
 import styles from "./Upload.module.scss";
-import { UserOutlined } from "@ant-design/icons";
 import type { ChangeEvent } from "react";
 import { toast } from "react-toastify";
 import { postDataAPI } from "~/utils/api";
