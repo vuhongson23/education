@@ -14,6 +14,10 @@
   margin-bottom: 20px;
 }
 
+.radio-form {
+  margin-bottom: 20px;
+}
+
 .thumbnail-upload {
   height: 272px;
   width: 422px;
@@ -35,4 +39,14 @@
       height: auto;
     }
   }
+}
+
+.add-btn {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  padding: 10px 8px;
+  font-weight: 500;
+  margin-top: 20px;
 }

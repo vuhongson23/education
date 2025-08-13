@@ -1,12 +1,13 @@
 import classNames from "classnames/bind";
 
-import styles from "./WriteNewPost.module.scss";
+import CustomTextEditor from "~/components/custom-text-editor";
 import { Formik, type FormikProps } from "formik";
 import MultiInput from "~/components/multi-input";
-import Button from "~/components/button";
-import FormRow from "~/components/form-row";
 import { POST_STATUS } from "~/constant/constant";
+import styles from "./WriteNewPost.module.scss";
 import Upload from "~/components/image-upload";
+import FormRow from "~/components/form-row";
+import Button from "~/components/button";
 
 interface FormValuesPost {
   title: string;
@@ -15,6 +16,7 @@ interface FormValuesPost {
   author: string;
   category: number;
   status: number;
+  content: string;
 }
 
 const categoryList = [
@@ -55,7 +57,10 @@ const cx = classNames.bind(styles);
 
 const WriteNewPost = () => {
   const handleAddNewPost = (values: FormValuesPost) => {
-    console.log("🚀 ~ handleAddNewPost ~ values:", values);
+    const payload = {
+      ...values,
+    };
+    console.log("🚀 ~ handleAddNewPost ~ payload:", payload);
   };
 
   return (
@@ -67,6 +72,7 @@ const WriteNewPost = () => {
         author: "",
         category: 0,
         status: POST_STATUS.PENDING,
+        content: "",
       }}
       onSubmit={handleAddNewPost}
     >
@@ -117,7 +123,14 @@ const WriteNewPost = () => {
                 className={cx("radio-form")}
                 required
               />
-              <Button type="submit" variant="primary">
+              <CustomTextEditor
+                name="content"
+                label="Content"
+                className={cx("editor")}
+                required
+                placeholder="Write your post content here..."
+              />
+              <Button type="submit" variant="primary" className={cx("add-btn")}>
                 Add
               </Button>
             </form>
