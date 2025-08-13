@@ -1,4 +1,5 @@
 import classNames from "classnames/bind";
+import slugify from "slugify";
 
 import CustomTextEditor from "~/components/custom-text-editor";
 import { Formik, type FormikProps } from "formik";
@@ -59,6 +60,7 @@ const WriteNewPost = () => {
   const handleAddNewPost = (values: FormValuesPost) => {
     const payload = {
       ...values,
+      slug: slugify(values.slug || values.title),
     };
     console.log("🚀 ~ handleAddNewPost ~ payload:", payload);
   };
@@ -88,6 +90,7 @@ const WriteNewPost = () => {
                   name="title"
                   label="Title"
                   className={cx("input-form")}
+                  placeholder="Enter title of post..."
                   required
                 />
                 <MultiInput
@@ -95,7 +98,7 @@ const WriteNewPost = () => {
                   name="slug"
                   label="Slug"
                   className={cx("input-form")}
-                  required
+                  placeholder="Enter slug of post..."
                 />
               </FormRow>
               <FormRow className={cx("form-row")}>
@@ -104,6 +107,7 @@ const WriteNewPost = () => {
                   name="author"
                   label="Author"
                   className={cx("input-form")}
+                  placeholder="Enter author of post..."
                   required
                 />
                 <MultiInput
@@ -121,6 +125,7 @@ const WriteNewPost = () => {
                 label="Status"
                 options={postStatus}
                 className={cx("radio-form")}
+                disabled
                 required
               />
               <CustomTextEditor
