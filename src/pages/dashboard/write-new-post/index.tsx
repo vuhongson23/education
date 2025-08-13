@@ -9,6 +9,9 @@ import styles from "./WriteNewPost.module.scss";
 import Upload from "~/components/image-upload";
 import FormRow from "~/components/form-row";
 import Button from "~/components/button";
+import { toast } from "react-toastify";
+import { postDataAPI } from "~/utils/api";
+import { URL_CREATE_NEW_POST } from "~/api/end-point";
 
 interface FormValuesPost {
   title: string;
@@ -57,12 +60,18 @@ const postStatus = [
 const cx = classNames.bind(styles);
 
 const WriteNewPost = () => {
-  const handleAddNewPost = (values: FormValuesPost) => {
+  const handleAddNewPost = async (values: FormValuesPost) => {
     const payload = {
       ...values,
       slug: slugify(values.slug || values.title),
     };
     console.log("🚀 ~ handleAddNewPost ~ payload:", payload);
+    try {
+      const response = await postDataAPI(URL_CREATE_NEW_POST, payload);
+      console.log("🚀 ~ handleAddNewPost ~ response:", response);
+    } catch (error) {
+      toast.error("Create new post failed");
+    }
   };
 
   return (
