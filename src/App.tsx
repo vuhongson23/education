@@ -21,6 +21,7 @@ import ApprovedPosts from "~/pages/profile/posts/approved-posts";
 import PendingPosts from "~/pages/profile/posts/pending-posts";
 import { routes } from "./constant/routes";
 import DashboardLayout from "./pages/dashboard";
+import PostDetailPage from "./pages/post-detail";
 
 function App() {
   const user = isAuthenticated();
@@ -119,6 +120,7 @@ function App() {
               <Route key={route.path} path={route.path} element={<Page />} />
             );
           })}
+          <Route path="/:slug" element={<PostDetailPage />} />
         </Route>
 
         {/**Route not found */}

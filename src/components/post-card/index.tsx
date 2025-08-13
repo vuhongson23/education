@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./PostCard.module.scss";
 import PostContent from "~/components/post-content";
+import { useNavigate } from "react-router-dom";
 
 interface PostCardProps {
   variant?: "primary" | "secondary";
@@ -10,11 +11,13 @@ interface PostCardProps {
 const cx = classNames.bind(styles);
 
 const PostCard = ({ variant = "primary", className }: PostCardProps) => {
+  const navigate = useNavigate();
   return (
     <div
       className={cx("post-card", `post-card--${variant}`, {
         [className || ""]: !!className,
       })}
+      onClick={() => navigate("/abc-abcd")}
     >
       {variant === "primary" && <div className={cx("overlay")}></div>}
       <img
