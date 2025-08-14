@@ -11,8 +11,8 @@ export const CATEGORY_STATUS = {
 
 export const POST_STATUS = {
   PUBLISHED: 1,
-  DRAFT: 2,
-  PENDING: 3,
+  PENDING: 2,
+  DRAFT: 3,
   REJECTED: 4,
 };
 
