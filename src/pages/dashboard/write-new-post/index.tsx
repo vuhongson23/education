@@ -18,7 +18,7 @@ interface FormValuesPost {
   slug: string;
   thumbnail: string;
   author: string;
-  category: number;
+  categoryId: number;
   status: number;
   content: string;
 }
@@ -64,9 +64,10 @@ const WriteNewPost = () => {
     values: FormValuesPost,
     formikHelper: any
   ) => {
+    console.log("🚀 ~ handleAddNewPost ~ values:", values);
     const payload = {
       ...values,
-      category: Number(values.category),
+      categoryId: Number(values.categoryId),
       slug: slugify(values.slug || values.title),
     };
     console.log("🚀 ~ handleAddNewPost ~ payload:", payload);
@@ -88,7 +89,7 @@ const WriteNewPost = () => {
         slug: "",
         thumbnail: "",
         author: "",
-        category: 0,
+        categoryId: 0,
         status: POST_STATUS.PENDING,
         content: "",
       }}
@@ -130,7 +131,7 @@ const WriteNewPost = () => {
                 />
                 <MultiInput
                   type="select"
-                  name="category"
+                  name="categoryId"
                   label="Category"
                   options={categoryList}
                   className={cx("select-form")}

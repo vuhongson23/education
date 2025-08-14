@@ -1,5 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./GlobalStyles.module.scss";
+import "./globalStyles.scss";
 
 const cx = classNames.bind(styles);
 

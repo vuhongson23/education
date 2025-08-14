@@ -2,11 +2,12 @@ import classNames from "classnames/bind";
 import styles from "./PostCard.module.scss";
 import PostContent from "~/components/post-content";
 import { Link } from "react-router-dom";
+import type { PostDetailTypes } from "~/constant/type/type";
 
 interface PostCardProps {
   variant?: "primary" | "secondary";
   className?: string;
-  postData?: any;
+  postData?: PostDetailTypes | any;
 }
 
 const cx = classNames.bind(styles);
@@ -19,7 +20,7 @@ const PostCard = ({
   if (!postData) return;
   const { thumbnail, slug, ...content } = postData;
   return (
-    <Link to={`/${slug}`}>
+    <Link to={`/${slug}`} className={cx("link")}>
       <div
         className={cx("post-card", `post-card--${variant}`, {
           [className || ""]: !!className,

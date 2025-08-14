@@ -1,31 +1,49 @@
 import classNames from "classnames/bind";
+import parse from "html-react-parser";
 
 import styles from "./PostDetailPage.module.scss";
 import { useParams } from "react-router-dom";
 import PostCard from "~/components/post-card";
 import RelatedPosts from "~/modules/related-post";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { getDataAPINoAuth } from "~/utils/api";
+import { URL_GET_POST_BY_SLUG } from "~/api/end-point";
+import type { PostDetailTypes } from "~/constant/type/type";
 
 const cx = classNames.bind(styles);
 
 const PostDetailPage = () => {
+  const [postData, setPostData] = useState<PostDetailTypes | any>({});
   const { slug } = useParams();
-  console.log("🚀 ~ PostDetailPage ~ slug:", slug);
+
+  const fetchPostDetail = async () => {
+    try {
+      const response = await getDataAPINoAuth(URL_GET_POST_BY_SLUG + slug);
+      if (response?.status === 200) {
+        setPostData(response?.data);
+      }
+    } catch (error) {
+      toast.error("Không thể lấy thông tin bài viết");
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchPostDetail();
   }, []);
   return (
     <div className={cx("wrapper")}>
       <div className={cx("post-header")}>
-        <PostCard variant="secondary" className="post-header-item" />
+        <PostCard
+          variant="secondary"
+          className="post-header-item"
+          postData={postData}
+        />
       </div>
       <div className={cx("post-content")}>
         <div className={cx("post-content--entry")}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet delectus
-          cupiditate sapiente eveniet sed quis asperiores consequuntur commodi
-          enim repudiandae dolore aliquam beatae, fugit id distinctio ex autem
-          placeat assumenda?
+          {parse(postData?.content || "")}
         </div>
         <div className={cx("post-content--author")}>
           <img
