@@ -222,7 +222,6 @@ const UserManager = () => {
         setShowModal(false);
       }
     } else if (action === ACTION_FORM.CREATE) {
-      console.log("🚀 ~ handleSubmit ~ values:", values);
       try {
         const response = await postDataAPINoAuth(
           URL_CREATE_NEW_USER_IN_DASHBOARD,

@@ -60,15 +60,22 @@ const postStatus = [
 const cx = classNames.bind(styles);
 
 const WriteNewPost = () => {
-  const handleAddNewPost = async (values: FormValuesPost) => {
+  const handleAddNewPost = async (
+    values: FormValuesPost,
+    formikHelper: any
+  ) => {
     const payload = {
       ...values,
+      category: Number(values.category),
       slug: slugify(values.slug || values.title),
     };
     console.log("🚀 ~ handleAddNewPost ~ payload:", payload);
     try {
       const response = await postDataAPI(URL_CREATE_NEW_POST, payload);
-      console.log("🚀 ~ handleAddNewPost ~ response:", response);
+      if (response.status === 201) {
+        toast.success("Create new post successfully");
+        formikHelper.resetForm();
+      }
     } catch (error) {
       toast.error("Create new post failed");
     }
@@ -85,7 +92,9 @@ const WriteNewPost = () => {
         status: POST_STATUS.PENDING,
         content: "",
       }}
-      onSubmit={handleAddNewPost}
+      onSubmit={(values, formikHelper) =>
+        handleAddNewPost(values, formikHelper)
+      }
     >
       {(formik: FormikProps<FormValuesPost>) => (
         <div className={cx("wrapper")}>
