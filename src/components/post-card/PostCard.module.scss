@@ -25,6 +25,12 @@
   border-radius: 15px;
 }
 
+.overlay:hover {
+  transition: all 0.1s linear;
+  background-color: black;
+  opacity: 0.3;
+}
+
 .post-card__image {
   width: 100%;
   object-fit: cover;

@@ -16,5 +16,6 @@ export const URL_DELETE_USER = "/users/delete/";
 export const URL_CREATE_NEW_USER_IN_DASHBOARD = "auth/dashboard/register";
 
 // Post
+export const URL_GET_ALL_POST = "posts/all";
 export const URL_CREATE_NEW_POST = "/posts/";
 export const URL_GET_POST_BY_SLUG = "/posts/";

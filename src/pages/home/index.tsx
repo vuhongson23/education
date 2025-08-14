@@ -1,18 +1,42 @@
+import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
+import { toast } from "react-toastify";
 
 import styles from "./Home.module.scss";
 import Banner from "~/modules/banner";
 import Feature from "~/modules/features";
 import NewestUpdate from "~/modules/newest";
 import RelatedPosts from "~/modules/related-post";
+import { getDataAPINoAuth } from "~/utils/api";
+import { URL_GET_ALL_POST } from "~/api/end-point";
 
 const cx = classNames.bind(styles);
 
 const HomePage = () => {
+  const [posts, setPosts] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await getDataAPINoAuth(URL_GET_ALL_POST, {
+        pageNo: 1,
+        pageSize: 3,
+        search: "",
+      });
+      if (response?.status === 200) {
+        setPosts(response?.data?.content);
+      }
+    } catch (error) {
+      toast.error("Lấy danh sách bài viết không thành công");
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className={cx("wrapper")}>
       <Banner />
-      <Feature />
+      <Feature posts={posts} />
       <NewestUpdate />
       <RelatedPosts />
     </div>
