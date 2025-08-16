@@ -1,20 +1,24 @@
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
+import { toast } from "react-toastify";
 import parse from "html-react-parser";
 
 import styles from "./PostDetailPage.module.scss";
-import { useParams } from "react-router-dom";
 import PostCard from "~/components/post-card";
 import RelatedPosts from "~/modules/related-post";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { getDataAPINoAuth } from "~/utils/api";
-import { URL_GET_POST_BY_SLUG } from "~/api/end-point";
+import {
+  URL_GET_POST_BY_CONDITION,
+  URL_GET_POST_BY_SLUG,
+} from "~/api/end-point";
 import type { PostDetailTypes } from "~/constant/type/type";
 
 const cx = classNames.bind(styles);
 
 const PostDetailPage = () => {
   const [postData, setPostData] = useState<PostDetailTypes | any>({});
+  const [relatedPosts, setRelatedPost] = useState<PostDetailTypes[]>([]);
   const { slug } = useParams();
 
   const fetchPostDetail = async () => {
@@ -28,10 +32,28 @@ const PostDetailPage = () => {
     }
   };
 
+  const fetchReletedPosts = async (categoryId: number) => {
+    try {
+      const response = await getDataAPINoAuth(URL_GET_POST_BY_CONDITION, {
+        pageNo: 1,
+        pageSize: 100,
+        categoryId: categoryId,
+      });
+      if (response?.status === 200) {
+        setRelatedPost(response?.data?.content);
+      }
+    } catch (error) {
+      toast.error("Lấy danh sách bài viết liên quan thất bại");
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     fetchPostDetail();
-  }, []);
+    if (postData?.categoryId) {
+      fetchReletedPosts(postData?.categoryId);
+    }
+  }, [postData?.categoryId, slug]);
   return (
     <div className={cx("wrapper")}>
       <div className={cx("post-header")}>
@@ -48,11 +70,11 @@ const PostDetailPage = () => {
         <div className={cx("post-content--author")}>
           <img
             className={cx("author-avatar")}
-            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={import.meta.env.VITE_PREFIX_URL + postData?.author?.avatar}
             alt=""
           />
           <div className={cx("author-info")}>
-            <h3 className={cx("author-name")}>Thu Trang</h3>
+            <h3 className={cx("author-name")}>{postData?.author?.userName}</h3>
             <p className={cx("author-bio")}>
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro
               maxime ipsum dolor ea dignissimos consequuntur, nulla et ipsa.
@@ -65,7 +87,7 @@ const PostDetailPage = () => {
           </div>
         </div>
       </div>
-      <RelatedPosts />
+      <RelatedPosts posts={relatedPosts} />
     </div>
   );
 };

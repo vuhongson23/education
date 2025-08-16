@@ -19,3 +19,4 @@ export const URL_CREATE_NEW_USER_IN_DASHBOARD = "auth/dashboard/register";
 export const URL_GET_ALL_POST = "posts/all";
 export const URL_CREATE_NEW_POST = "/posts/";
 export const URL_GET_POST_BY_SLUG = "/posts/";
+export const URL_GET_POST_BY_CONDITION = "/posts/search";

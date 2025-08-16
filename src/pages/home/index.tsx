@@ -15,7 +15,6 @@ const cx = classNames.bind(styles);
 
 const HomePage = () => {
   const [posts, setPosts] = useState<PostTypes[]>([]);
-  console.log("🚀 ~ HomePage ~ posts:", posts);
 
   const fetchData = async () => {
     try {
