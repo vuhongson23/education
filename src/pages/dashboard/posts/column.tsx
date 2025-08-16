@@ -32,7 +32,7 @@ const CategoryTableColumn = (
       render: (value: string) => {
         return (
           <img
-            src={value}
+            src={import.meta.env.VITE_PREFIX_URL + value}
             alt="thumbnail"
             style={{ height: 60, width: 100, objectFit: "cover" }}
           />
@@ -48,7 +48,7 @@ const CategoryTableColumn = (
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (value: string) => {
+      render: (value: number) => {
         switch (value) {
           case POST_STATUS.PUBLISHED: {
             return (
@@ -60,7 +60,7 @@ const CategoryTableColumn = (
                   color: "#389e0d",
                 }}
               >
-                {value}
+                published
               </span>
             );
           }
@@ -75,7 +75,7 @@ const CategoryTableColumn = (
                   color: "#0958d9",
                 }}
               >
-                {value}
+                pending
               </span>
             );
           }
@@ -90,7 +90,7 @@ const CategoryTableColumn = (
                   color: "#08979c",
                 }}
               >
-                {value}
+                draft
               </span>
             );
           }
@@ -105,7 +105,7 @@ const CategoryTableColumn = (
                   color: "#cf1322",
                 }}
               >
-                {value}
+                rejected
               </span>
             );
           }

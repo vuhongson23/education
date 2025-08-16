@@ -1,5 +1,6 @@
 import { useEffect, useState, type ChangeEvent } from "react";
 import classNames from "classnames/bind";
+import { toast } from "react-toastify";
 import { Table } from "antd";
 
 import styles from "./UserManager.module.scss";
@@ -7,7 +8,6 @@ import useDebounce from "~/hooks/useDebounce";
 import Button from "~/components/button";
 import ColumnUserTable from "./column";
 import Modal from "~/modules/modal";
-import { toast } from "react-toastify";
 import {
   deleteDataAPI,
   getDataAPINoAuth,
@@ -23,27 +23,13 @@ import {
 } from "~/api/end-point";
 import Loading from "~/components/loading";
 import Search from "~/components/search";
-import FormRow from "~/components/form-row";
-import MultiInput from "~/components/multi-input";
-import Upload from "~/components/image-upload";
-import { ACTION_FORM, USER_STATUS } from "~/constant/constant";
+import { ACTION_FORM } from "~/constant/constant";
+import type { Users } from "~/constant/type/type";
+import UserForm from "./user-form";
 
 interface FormValues {
   [key: string]: any;
 }
-
-type Users = {
-  id: number;
-  userName: string;
-  firstName: string;
-  lastName: string;
-  avatar: string;
-  phoneNumber: string;
-  address: string;
-  age: number;
-  status: number;
-  createdAt: string;
-};
 
 const cx = classNames.bind(styles);
 
@@ -59,32 +45,6 @@ const initValue: FormValues = {
   address: "",
   role: 0,
 };
-
-const statusOptions = [
-  {
-    label: "Active",
-    value: USER_STATUS.ACTIVE,
-  },
-  {
-    label: "Pending",
-    value: USER_STATUS.IN_ACTIVE,
-  },
-  {
-    label: "Banned",
-    value: USER_STATUS.BANNED,
-  },
-];
-
-const roleOptions = [
-  {
-    label: "Admin",
-    value: 1,
-  },
-  {
-    label: "User",
-    value: 0,
-  },
-];
 
 const UserManager = () => {
   const [searchParams, setSearchParams] = useState<string>("");
@@ -137,7 +97,6 @@ const UserManager = () => {
     try {
       fetchData();
     } catch (error) {
-      console.log("🚀 ~ UserManager ~ error:", error);
       toast.error("Lỗi lấy danh sách người dùng!");
     }
   }, [debounceValue]);
@@ -153,7 +112,6 @@ const UserManager = () => {
         setShowModal(true);
       }
     } catch (error) {
-      console.log("🚀 ~ handleViewInfo ~ error:", error);
       toast.error(`Lấy thông tin người dùng #${id} thất bại!`);
     }
   };
@@ -186,7 +144,6 @@ const UserManager = () => {
     try {
       setIsLoading(true);
       const response = await deleteDataAPI(URL_DELETE_USER + id);
-      console.log("🚀 ~ handleDeleteUser ~ response:", response);
       if (response?.status === 200) {
         fetchData();
         toast.success(`Xóa người dùng #${id} thành công`);
@@ -273,93 +230,11 @@ const UserManager = () => {
           className={cx("modal-user")}
           action={action}
         >
-          <h2>{titleForm}</h2>
-          <Upload name="avatar" disabled={action === ACTION_FORM.VIEW} />
-
-          {action === ACTION_FORM.CREATE || action === ACTION_FORM.UPDATE ? (
-            <MultiInput
-              type="text"
-              name="userName"
-              label="Username"
-              placeholder="Sơn"
-              className={cx("user-input")}
-              disabled={action === ACTION_FORM.VIEW}
-            />
-          ) : (
-            <div className={cx("user-name")}>{userInfo?.userName}</div>
-          )}
-          <FormRow>
-            <MultiInput
-              type="text"
-              name="firstName"
-              label="First name"
-              placeholder="Sơn"
-              className={cx("user-input")}
-              disabled={action === ACTION_FORM.VIEW}
-            />
-            <MultiInput
-              type="text"
-              name="lastName"
-              label="Last name"
-              placeholder="Vũ"
-              className={cx("user-input")}
-              disabled={action === ACTION_FORM.VIEW}
-            />
-          </FormRow>
-          <FormRow>
-            <MultiInput
-              type="text"
-              name="phoneNumber"
-              label="Phone"
-              placeholder="0864153753"
-              className={cx("user-input")}
-              disabled={action === ACTION_FORM.VIEW}
-            />
-            <MultiInput
-              type="text"
-              name="email"
-              label="Email"
-              placeholder="abc@gmail.com"
-              className={cx("user-input")}
-              disabled={action === ACTION_FORM.VIEW}
-            />
-          </FormRow>
-          <FormRow>
-            <MultiInput
-              type="text"
-              name="age"
-              label="Age"
-              placeholder="18"
-              className={cx("user-input")}
-              disabled={action === ACTION_FORM.VIEW}
-            />
-            <MultiInput
-              type="text"
-              name="address"
-              label="Address"
-              placeholder="Phường A, xã B, tỉnh D,..."
-              className={cx("user-input")}
-              disabled={action === ACTION_FORM.VIEW}
-            />
-          </FormRow>
-          <FormRow>
-            <MultiInput
-              type="radio"
-              name="status"
-              label="Status"
-              options={statusOptions}
-              className={cx("user-input")}
-              disabled={action === ACTION_FORM.VIEW}
-            />
-            <MultiInput
-              type="radio"
-              name="role"
-              label="Role"
-              options={roleOptions}
-              className={cx("user-input")}
-              disabled={action === ACTION_FORM.VIEW}
-            />
-          </FormRow>
+          <UserForm
+            titleForm={titleForm}
+            action={action}
+            userName={userInfo?.userName}
+          ></UserForm>
         </Modal>
       )}
     </div>

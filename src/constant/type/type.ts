@@ -57,3 +57,16 @@ export type PostDetailTypes = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type Users = {
+  id: number;
+  userName: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
+  phoneNumber: string;
+  address: string;
+  age: number;
+  status: number;
+  createdAt: string;
+};

@@ -64,13 +64,11 @@ const WriteNewPost = () => {
     values: FormValuesPost,
     formikHelper: any
   ) => {
-    console.log("🚀 ~ handleAddNewPost ~ values:", values);
     const payload = {
       ...values,
       categoryId: Number(values.categoryId),
       slug: slugify(values.slug || values.title),
     };
-    console.log("🚀 ~ handleAddNewPost ~ payload:", payload);
     try {
       const response = await postDataAPI(URL_CREATE_NEW_POST, payload);
       if (response.status === 201) {
