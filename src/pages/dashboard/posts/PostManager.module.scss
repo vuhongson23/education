@@ -45,3 +45,69 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.modal-post > :global([class*="wrapper"]) {
+  width: 1030px;
+  height: 800px;
+  overflow-y: auto; // Thay đổi từ scroll thành auto
+
+  & ::-webkit-scrollbar {
+    border-radius: 0px;
+    width: 8px;
+  }
+  & *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+  }
+  & ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.06);
+  }
+
+  & *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.06);
+  }
+  & ::-webkit-scrollbar-track {
+    border-radius: 0px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  & *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+// Modal Post Form
+.thumbnail-upload {
+  height: 272px;
+  width: 422px;
+  margin: 0;
+  margin-bottom: 20px;
+  border-radius: 10px !important;
+
+  :global([class*="label-file"]) {
+    border-radius: 10px;
+
+    :global([class*="avatar"]) {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+    }
+
+    :global([class*="avatar-default"]) {
+      width: 150px;
+      height: auto;
+    }
+  }
+}
+
+.add-btn {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  padding: 10px 8px;
+  font-weight: 500;
+  margin-top: 20px;
+}

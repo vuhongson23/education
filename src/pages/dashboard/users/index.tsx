@@ -234,7 +234,7 @@ const UserManager = () => {
             titleForm={titleForm}
             action={action}
             userName={userInfo?.userName}
-          ></UserForm>
+          />
         </Modal>
       )}
     </div>

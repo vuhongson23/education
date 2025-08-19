@@ -11,12 +11,33 @@ import CategoryTableColumn from "./column";
 import { routes } from "~/constant/routes";
 import type { PostDetailTypes } from "~/constant/type/type";
 import { getDataAPINoAuth } from "~/utils/api";
-import { URL_GET_ALL_POST } from "~/api/end-point";
+import { URL_GET_ALL_POST, URL_GET_POST_BY_SLUG } from "~/api/end-point";
+import Modal from "~/modules/modal";
+import { POST_STATUS } from "~/constant/constant";
+import PostForm from "./post-form";
+
+interface FormValues {
+  [key: string]: any;
+}
 
 const cx = classNames.bind(styles);
 
+const initValue: FormValues = {
+  title: "",
+  slug: "",
+  thumbnail: "",
+  author: "",
+  categoryId: 0,
+  status: POST_STATUS.PENDING,
+  content: "",
+};
+
 const PostManager = () => {
   const [posts, setPosts] = useState<PostDetailTypes[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [titleForm, setTitleForm] = useState("");
+  const [postInfo, setPostInfo] = useState({});
+  console.log("🚀 ~ PostManager ~ postInfo:", postInfo);
   const [total, setTotal] = useState(1);
   const [page, setPage] = useState(1);
 
@@ -51,14 +72,31 @@ const PostManager = () => {
 
   const navigate = useNavigate();
 
-  const handleViewInfo = (id: number) => {
-    console.log("🚀 ~ handleViewInfo ~ id:", id);
+  const handleViewInfo = async (slug: string) => {
+    setShowModal(true);
+    setTitleForm("Thông tin bài viết");
+    try {
+      const response = await getDataAPINoAuth(URL_GET_POST_BY_SLUG + slug);
+      if (response?.status === 200) {
+        const postData = response?.data;
+        setPostInfo({ ...postData, author: postData.author.userName });
+      }
+    } catch (error) {
+      toast.error("Lấy thông tin bài viết thất bại");
+    }
   };
+
   const handleUpdatePost = (id: number) => {
+    setShowModal(true);
+    setTitleForm(`Cập nhật bài viết #${id}`);
     console.log("🚀 ~ handleViewInfo ~ id:", id);
   };
   const handleDeletePost = (id: number) => {
     console.log("🚀 ~ handleViewInfo ~ id:", id);
+  };
+
+  const handleSubmit = async (values: any) => {
+    console.log("🚀 ~ handleSubmit ~ values:", values);
   };
 
   const columns = CategoryTableColumn(
@@ -96,6 +134,17 @@ const PostManager = () => {
           />
         </div>
       </div>
+      {showModal && (
+        <Modal
+          initialValues={postInfo ? postInfo : initValue}
+          onSubmit={handleSubmit}
+          onShowModal={setShowModal}
+          onSetValue={setPostInfo}
+          className={cx("modal-post")}
+        >
+          <PostForm titleForm={titleForm} />
+        </Modal>
+      )}
     </div>
   );
 };

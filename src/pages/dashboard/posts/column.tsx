@@ -8,7 +8,7 @@ import { Tooltip } from "antd";
 const cx = classNames.bind(styles);
 
 const CategoryTableColumn = (
-  handleViewInfo: (id: number) => void,
+  handleViewInfo: (slug: string) => void,
   handleUpdatePost: (id: number) => void,
   handleDeletePost: (id: number) => void
 ) => {
@@ -120,7 +120,7 @@ const CategoryTableColumn = (
       dataIndex: "action",
       key: "action",
       render: (_: any, record: any) => {
-        const postId = record?.id;
+        const { slug, id } = record;
         return (
           <div
             style={{
@@ -132,7 +132,7 @@ const CategoryTableColumn = (
             <Tooltip title="View">
               <span
                 style={{ cursor: "pointer" }}
-                onClick={() => handleViewInfo(postId)}
+                onClick={() => handleViewInfo(slug)}
               >
                 <ViewIcon color="green"></ViewIcon>
               </span>
@@ -140,7 +140,7 @@ const CategoryTableColumn = (
             <Tooltip title="Edit">
               <span
                 style={{ cursor: "pointer" }}
-                onClick={() => handleUpdatePost(postId)}
+                onClick={() => handleUpdatePost(id)}
               >
                 <EditIcon color="blue"></EditIcon>
               </span>
@@ -148,7 +148,7 @@ const CategoryTableColumn = (
             <Tooltip title="Delete">
               <span
                 style={{ cursor: "pointer" }}
-                onClick={() => handleDeletePost(postId)}
+                onClick={() => handleDeletePost(id)}
               >
                 <DeleteIcon color="red"></DeleteIcon>
               </span>
