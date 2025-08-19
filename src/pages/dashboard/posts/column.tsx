@@ -7,9 +7,9 @@ import { Tooltip } from "antd";
 
 const cx = classNames.bind(styles);
 
-const CategoryTableColumn = (
+const PostTableColumn = (
   handleViewInfo: (slug: string) => void,
-  handleUpdatePost: (id: number) => void,
+  handleUpdatePost: (slug: string, id: number) => void,
   handleDeletePost: (id: number) => void
 ) => {
   return [
@@ -140,7 +140,7 @@ const CategoryTableColumn = (
             <Tooltip title="Edit">
               <span
                 style={{ cursor: "pointer" }}
-                onClick={() => handleUpdatePost(id)}
+                onClick={() => handleUpdatePost(slug, id)}
               >
                 <EditIcon color="blue"></EditIcon>
               </span>
@@ -160,4 +160,4 @@ const CategoryTableColumn = (
   ];
 };
 
-export default CategoryTableColumn;
+export default PostTableColumn;

@@ -20,3 +20,5 @@ export const URL_GET_ALL_POST = "posts/all";
 export const URL_CREATE_NEW_POST = "/posts/";
 export const URL_GET_POST_BY_SLUG = "/posts/";
 export const URL_GET_POST_BY_CONDITION = "/posts/search";
+export const URL_UPDATE_POST = "/posts/update/";
+export const URL_DELETE_POST = "/posts/delete/";

@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 
 import CustomTextEditor from "~/components/custom-text-editor";
 import MultiInput from "~/components/multi-input";
-import { POST_STATUS } from "~/constant/constant";
+import { ACTION_FORM, POST_STATUS } from "~/constant/constant";
 import styles from "./PostManager.module.scss";
 import FormRow from "~/components/form-row";
 import Upload from "~/components/image-upload";
@@ -10,6 +10,7 @@ import Button from "~/components/button";
 
 interface PostFormProps {
   titleForm: string;
+  action?: string;
 }
 
 const cx = classNames.bind(styles);
@@ -48,7 +49,7 @@ const postStatus = [
   },
 ];
 
-const PostForm = ({ titleForm }: PostFormProps) => {
+const PostForm = ({ titleForm, action }: PostFormProps) => {
   return (
     <>
       <h2>{titleForm}</h2>
@@ -94,7 +95,7 @@ const PostForm = ({ titleForm }: PostFormProps) => {
         label="Status"
         options={postStatus}
         className={cx("radio-form")}
-        disabled
+        disabled={action === ACTION_FORM.VIEW ? true : false}
         required
       />
       <CustomTextEditor

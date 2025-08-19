@@ -57,24 +57,28 @@ const UserManager = () => {
   const debounceValue = useDebounce(searchParams, 500);
 
   const fetchData = async () => {
-    const payload = {
-      pageNo: 1,
-      pageSize: 10,
-      search: searchParams ? searchParams : "",
-    };
-    setIsLoading(true);
-    const response = await getDataAPINoAuth(URL_GET_ALL_USER, payload);
+    try {
+      const payload = {
+        pageNo: 1,
+        pageSize: 10,
+        search: searchParams ? searchParams : "",
+      };
+      setIsLoading(true);
+      const response = await getDataAPINoAuth(URL_GET_ALL_USER, payload);
 
-    if (response?.status === 200) {
-      const data = response?.data?.content?.map((item: Users) => {
-        return {
-          ...item,
-          key: item?.id,
-        };
-      });
+      if (response?.status === 200) {
+        const data = response?.data?.content?.map((item: Users) => {
+          return {
+            ...item,
+            key: item?.id,
+          };
+        });
 
-      setUsers(data);
-      setIsLoading(false);
+        setUsers(data);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      toast.error("Lỗi lấy danh sách người dùng!");
     }
   };
 
@@ -94,11 +98,7 @@ const UserManager = () => {
   };
 
   useEffect(() => {
-    try {
-      fetchData();
-    } catch (error) {
-      toast.error("Lỗi lấy danh sách người dùng!");
-    }
+    fetchData();
   }, [debounceValue]);
 
   // Lấy thông tin người dùng
@@ -127,7 +127,7 @@ const UserManager = () => {
         setAction(ACTION_FORM.UPDATE);
       }
     } catch (error) {
-      console.log("🚀 ~ handleUpdateUser ~ error:", error);
+      toast.error("Something went wrong!!!");
     }
   };
 
