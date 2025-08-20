@@ -53,3 +53,18 @@
 .category-form > :global([class*="wrapper"]) {
   width: auto !important;
 }
+
+.loading {
+  height: 300px;
+
+  :global([class*="spin"]) {
+    width: 120px;
+    height: 120px;
+    border-width: 2px;
+  }
+
+  img {
+    width: 50px;
+    height: 70px;
+  }
+}

@@ -70,3 +70,12 @@ export type Users = {
   status: number;
   createdAt: string;
 };
+
+export type Category = {
+  id: number;
+  title: string;
+  image: string;
+  status: number;
+  createdAt: string;
+  updatedAt: string;
+};

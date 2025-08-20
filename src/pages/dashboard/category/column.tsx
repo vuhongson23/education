@@ -21,8 +21,8 @@ const ColumnCategoryTable = (
     },
     {
       title: "Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "title",
+      key: "title",
     },
     {
       title: "Thumbnail",
@@ -57,7 +57,7 @@ const ColumnCategoryTable = (
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (value: string) => {
+      render: (value: number) => {
         switch (value) {
           case CATEGORY_STATUS.ACTIVE: {
             return (
@@ -69,7 +69,7 @@ const ColumnCategoryTable = (
                   color: "#389e0d",
                 }}
               >
-                {value}
+                active
               </span>
             );
           }
@@ -84,7 +84,7 @@ const ColumnCategoryTable = (
                   color: "#cf1322",
                 }}
               >
-                {value}
+                delete
               </span>
             );
           }

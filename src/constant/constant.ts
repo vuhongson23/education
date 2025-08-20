@@ -5,8 +5,8 @@ export const USER_STATUS = {
 };
 
 export const CATEGORY_STATUS = {
-  ACTIVE: "active",
-  DELETE: "delete",
+  ACTIVE: 1,
+  DELETE: 2,
 };
 
 export const POST_STATUS = {
