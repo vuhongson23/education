@@ -54,14 +54,16 @@ const UserManager = () => {
   const [action, setAction] = useState(ACTION_FORM.VIEW);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [titleForm, setTitleForm] = useState("");
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(1);
   const debounceValue = useDebounce(searchParams, 500);
 
   const fetchData = async () => {
     try {
       const payload = {
-        pageNo: 1,
-        pageSize: 10,
-        search: searchParams ? searchParams : "",
+        pageNo: page,
+        pageSize: 3,
+        search: debounceValue ? debounceValue : null,
       };
       setIsLoading(true);
       const response = await getDataAPINoAuth(URL_GET_ALL_USER, payload);
@@ -73,8 +75,8 @@ const UserManager = () => {
             key: item?.id,
           };
         });
-
         setUsers(data);
+        setTotal(response?.data?.total);
         setIsLoading(false);
       }
     } catch (error) {
@@ -99,7 +101,7 @@ const UserManager = () => {
 
   useEffect(() => {
     fetchData();
-  }, [debounceValue]);
+  }, [debounceValue, page]);
 
   // Lấy thông tin người dùng
   const handleViewInfo = async (id: number) => {
@@ -140,7 +142,6 @@ const UserManager = () => {
 
   // Delete người dùng
   const handleDeleteUser = async (id: number) => {
-    console.log("🚀 ~ handleDeleteUser ~ id:", id);
     try {
       setIsLoading(true);
       const response = await deleteDataAPI(URL_DELETE_USER + id);
@@ -149,7 +150,6 @@ const UserManager = () => {
         toast.success(`Xóa người dùng #${id} thành công`);
       }
     } catch (error) {
-      console.log("🚀 ~ handleDeleteUser ~ error:", error);
       toast.error(`Xóa người dùng #${id} không thành công`);
     }
   };
@@ -217,7 +217,18 @@ const UserManager = () => {
           <Loading className={cx("loading")} />
         ) : (
           <div className={cx("content-table")}>
-            <Table columns={columns} dataSource={users}></Table>
+            <Table
+              columns={columns}
+              dataSource={users}
+              pagination={{
+                current: page,
+                pageSize: 3,
+                total: total,
+                onChange: (page) => {
+                  setPage(page);
+                },
+              }}
+            />
           </div>
         )}
       </div>

@@ -224,6 +224,7 @@ const PostManager = () => {
               columns={columns}
               dataSource={posts}
               pagination={{
+                current: page,
                 pageSize: 3,
                 total: total,
                 onChange: (page) => {
