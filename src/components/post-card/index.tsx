@@ -26,13 +26,13 @@ const PostCard = ({
           [className || ""]: !!className,
         })}
       >
-        {variant === "primary" && <div className={cx("overlay")}></div>}
+        {variant === "primary" && <div className={cx("overlay")} />}
         <img
           src={import.meta.env.VITE_PREFIX_URL + thumbnail}
           alt=""
           className={cx("post-card__image", `post-card__image--${variant}`)}
         />
-        <PostContent variant={variant} content={content}></PostContent>
+        <PostContent variant={variant} content={content} />
       </div>
     </Link>
   );

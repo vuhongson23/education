@@ -22,6 +22,7 @@ export const URL_GET_POST_BY_SLUG = "/posts/";
 export const URL_GET_POST_BY_CONDITION = "/posts/search";
 export const URL_UPDATE_POST = "/posts/update/";
 export const URL_DELETE_POST = "/posts/delete/";
+export const URL_GET_NEWEST_POSTS = "/posts/newest-post";
 
 // Category
 export const URL_GET_ALL_CATEGORY = "/category/all";

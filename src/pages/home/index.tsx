@@ -8,16 +8,19 @@ import Feature from "~/modules/features";
 import NewestUpdate from "~/modules/newest";
 import RelatedPosts from "~/modules/related-post";
 import { getDataAPINoAuth } from "~/utils/api";
-import { URL_GET_ALL_POST } from "~/api/end-point";
+import { URL_GET_ALL_POST, URL_GET_NEWEST_POSTS } from "~/api/end-point";
 import type { PostTypes } from "~/constant/type/type";
 
 const cx = classNames.bind(styles);
 
 const HomePage = () => {
   const [posts, setPosts] = useState<PostTypes[]>([]);
+  const [newestPosts, setNewestPosts] = useState<PostTypes[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       const response = await getDataAPINoAuth(URL_GET_ALL_POST, {
         pageNo: 1,
         pageSize: 1000,
@@ -25,21 +28,39 @@ const HomePage = () => {
       });
       if (response?.status === 200) {
         setPosts(response?.data?.content);
+        setIsLoading(false);
       }
     } catch (error) {
       toast.error("Lấy danh sách bài viết không thành công");
     }
   };
 
+  const fetchNewestPosts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getDataAPINoAuth(URL_GET_NEWEST_POSTS, {
+        pageNo: 1,
+        pageSize: 4,
+      });
+      if (response.status === 200) {
+        setNewestPosts(response?.data?.content);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      toast.error("Lấy danh sách bài viết mới nhất thất bại");
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    fetchNewestPosts();
   }, []);
   return (
     <div className={cx("wrapper")}>
       <Banner />
-      <Feature posts={posts} />
-      <NewestUpdate />
-      <RelatedPosts />
+      <Feature posts={posts} isLoading={isLoading} />
+      <NewestUpdate posts={newestPosts} />
+      <RelatedPosts posts={posts} isLoading={isLoading} />
     </div>
   );
 };
