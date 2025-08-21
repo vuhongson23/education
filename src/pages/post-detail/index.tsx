@@ -26,6 +26,10 @@ const PostDetailPage = () => {
       const response = await getDataAPINoAuth(URL_GET_POST_BY_SLUG + slug);
       if (response?.status === 200) {
         setPostData(response?.data);
+
+        if (response?.data?.categoryId) {
+          await fetchReletedPosts(response?.data?.categoryId);
+        }
       }
     } catch (error) {
       toast.error("Không thể lấy thông tin bài viết");
@@ -36,7 +40,7 @@ const PostDetailPage = () => {
     try {
       const response = await getDataAPINoAuth(URL_GET_POST_BY_CONDITION, {
         pageNo: 1,
-        pageSize: 100,
+        pageSize: 10,
         categoryId: categoryId,
       });
       if (response?.status === 200) {
@@ -48,12 +52,13 @@ const PostDetailPage = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    fetchPostDetail();
-    if (postData?.categoryId) {
-      fetchReletedPosts(postData?.categoryId);
+    if (slug) {
+      window.scrollTo(0, 0);
+      setRelatedPost([]);
+      fetchPostDetail();
     }
-  }, [postData?.categoryId, slug]);
+  }, [slug]);
+
   return (
     <div className={cx("wrapper")}>
       <div className={cx("post-header")}>
@@ -87,7 +92,7 @@ const PostDetailPage = () => {
           </div>
         </div>
       </div>
-      <RelatedPosts posts={relatedPosts} />
+      <RelatedPosts posts={relatedPosts} currentPostId={postData?.id} />
     </div>
   );
 };

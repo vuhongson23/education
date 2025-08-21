@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
+import { toast } from "react-toastify";
 import slugify from "slugify";
 
 import CustomTextEditor from "~/components/custom-text-editor";
@@ -9,9 +11,8 @@ import styles from "./WriteNewPost.module.scss";
 import Upload from "~/components/image-upload";
 import FormRow from "~/components/form-row";
 import Button from "~/components/button";
-import { toast } from "react-toastify";
-import { postDataAPI } from "~/utils/api";
-import { URL_CREATE_NEW_POST } from "~/api/end-point";
+import { getDataAPINoAuth, postDataAPI } from "~/utils/api";
+import { URL_CREATE_NEW_POST, URL_GET_ALL_CATEGORY } from "~/api/end-point";
 
 interface FormValuesPost {
   title: string;
@@ -22,21 +23,6 @@ interface FormValuesPost {
   status: number;
   content: string;
 }
-
-const categoryList = [
-  {
-    label: "Khoa học",
-    value: 1,
-  },
-  {
-    label: "Công nghệ",
-    value: 2,
-  },
-  {
-    label: "Đời sống",
-    value: 3,
-  },
-];
 
 const postStatus = [
   {
@@ -60,6 +46,34 @@ const postStatus = [
 const cx = classNames.bind(styles);
 
 const WriteNewPost = () => {
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await getDataAPINoAuth(URL_GET_ALL_CATEGORY, {
+        pageNo: 1,
+        pageSize: 999,
+      });
+      if (response?.status === 200) {
+        const newListCategory = response?.data?.content?.map(
+          (category: any) => {
+            return {
+              label: category?.title,
+              value: category?.id,
+            };
+          }
+        );
+        setCategories(newListCategory);
+      }
+    } catch (error) {
+      toast.error("Lấy danh sách danh mục thất bại");
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   const handleAddNewPost = async (
     values: FormValuesPost,
     formikHelper: any
@@ -131,7 +145,7 @@ const WriteNewPost = () => {
                   type="select"
                   name="categoryId"
                   label="Category"
-                  options={categoryList}
+                  options={categories}
                   className={cx("select-form")}
                   required
                 />

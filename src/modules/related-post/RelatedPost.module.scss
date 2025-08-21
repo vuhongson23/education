@@ -5,6 +5,8 @@
 .posts-list {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
 }
 
 .post-item {
@@ -21,6 +23,68 @@
     }
     :global([class*="post-card__title"]) {
       font-size: 18px;
+    }
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////
+.wrapper {
+  margin-top: 57px;
+}
+
+.posts-list {
+  margin-top: 30px;
+
+  // Swiper container styles
+  :global(.mySwiper) {
+    width: 100%;
+    padding: 20px 0;
+
+    // Swiper navigation buttons
+    :global(.swiper-button-next),
+    :global(.swiper-button-prev) {
+      color: #6366f1;
+
+      &:after {
+        font-size: 20px;
+      }
+    }
+
+    // Swiper pagination
+    :global(.swiper-pagination-bullet) {
+      background: #6366f1;
+    }
+  }
+
+  // Swiper slide styles
+  :global(.swiper-slide) {
+    height: auto;
+    display: flex;
+  }
+}
+
+.post-item {
+  width: 100%;
+
+  img {
+    width: 100%;
+    max-width: 267px;
+    height: 202px;
+    object-fit: cover;
+  }
+
+  :global([class*="post-card__content"]) {
+    margin-top: 20px;
+    padding-top: 0;
+
+    :global([class*="tag"]) {
+      background-color: #f3edff;
+      font-size: 14px;
+    }
+
+    :global([class*="post-card__title"]) {
+      font-size: 18px;
+      line-height: 1.4;
     }
   }
 }
