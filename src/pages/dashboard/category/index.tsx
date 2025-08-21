@@ -18,6 +18,7 @@ import {
 } from "~/api/end-point";
 import Loading from "~/components/loading";
 import CategoryForm from "./category-form";
+import { ACTION_FORM } from "~/constant/constant";
 
 const cx = classNames.bind(styles);
 
@@ -31,9 +32,10 @@ const CategoryManager = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchParams, setSearchParams] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(1);
+  const [showModal, setShowModal] = useState<boolean>(true);
+  const [action, setAction] = useState<string>(ACTION_FORM.VIEW);
   const [total, setTotal] = useState<number>(1);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
   const debounceValue = useDebounce(searchParams, 500);
 
   // Get all category
@@ -103,11 +105,15 @@ const CategoryManager = () => {
     fetchAllCategoryByName();
   }, [debounceValue]);
 
+  // View infomation category
   const handleViewInfo = (id: number) => {
+    setAction(ACTION_FORM.VIEW);
     console.log("🚀 ~ handleViewInfo ~ id:", id);
   };
 
+  // Update category
   const handleUpdateCategory = (id: number) => {
+    setAction(ACTION_FORM.UPDATE);
     console.log("🚀 ~ handleUpdateCategory ~ id:", id);
   };
 
@@ -134,12 +140,14 @@ const CategoryManager = () => {
     handleDeleteCategory
   );
 
+  // Create category
   const handleSubmit = (values: any) => {
     console.log("🚀 ~ handleSubmit ~ values:", values);
     setShowModal(false);
   };
 
   const handleShowModal = () => {
+    setAction(ACTION_FORM.CREATE);
     setShowModal(true);
   };
 
@@ -185,7 +193,7 @@ const CategoryManager = () => {
           initialValues={initValue}
           className={cx("category-form")}
         >
-          <CategoryForm titleForm="Thông tin danh mục" />
+          <CategoryForm titleForm="Thông tin danh mục" action={action} />
         </Modal>
       )}
     </div>
