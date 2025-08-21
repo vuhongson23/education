@@ -29,3 +29,4 @@ export const URL_GET_ALL_CATEGORY_BY_CONDITION = "/category/search";
 export const URL_CREATE_CATEGORY = "/category";
 export const URL_UPDATE_CATEGORY = "/category/update/";
 export const URL_DELETE_CATEGORY = "/category/delete/";
+export const URL_GET_INFO_CATEGORY = "/category/info/";

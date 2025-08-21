@@ -10,30 +10,44 @@ import Modal from "~/modules/modal";
 import Search from "~/components/search";
 import type { Category } from "~/constant/type/type";
 import { toast } from "react-toastify";
-import { deleteDataAPI, getDataAPINoAuth } from "~/utils/api";
 import {
+  deleteDataAPI,
+  getDataAPINoAuth,
+  postDataAPINoAuth,
+  putDataAPI,
+} from "~/utils/api";
+import {
+  URL_CREATE_CATEGORY,
   URL_DELETE_CATEGORY,
   URL_GET_ALL_CATEGORY,
   URL_GET_ALL_CATEGORY_BY_CONDITION,
+  URL_GET_INFO_CATEGORY,
+  URL_UPDATE_CATEGORY,
 } from "~/api/end-point";
 import Loading from "~/components/loading";
 import CategoryForm from "./category-form";
-import { ACTION_FORM } from "~/constant/constant";
+import { ACTION_FORM, CATEGORY_STATUS } from "~/constant/constant";
+
+interface FormValues {
+  [key: string]: any;
+}
 
 const cx = classNames.bind(styles);
 
-const initValue = {
+const initValue: FormValues = {
   name: "",
   image: "",
-  password: "",
+  status: CATEGORY_STATUS.ACTIVE,
 };
 
 const CategoryManager = () => {
+  const [action, setAction] = useState<string>(ACTION_FORM.VIEW);
+  const [categoryInfo, setCategoryInfo] = useState<Category | any>({});
   const [categories, setCategories] = useState<Category[]>([]);
   const [searchParams, setSearchParams] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(true);
-  const [action, setAction] = useState<string>(ACTION_FORM.VIEW);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [titleForm, setTitleForm] = useState<string>("");
   const [total, setTotal] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
   const debounceValue = useDebounce(searchParams, 500);
@@ -97,24 +111,42 @@ const CategoryManager = () => {
     }
   };
 
+  // Get information category
+  const fetchCategoryInfo = async (categoryId: number) => {
+    try {
+      const response = await getDataAPINoAuth(
+        URL_GET_INFO_CATEGORY + categoryId
+      );
+      if (response?.status === 200) {
+        setCategoryInfo(response?.data);
+      }
+    } catch (error) {
+      toast.error("Không tìm thấy danh mục");
+    }
+  };
+
   useEffect(() => {
     fetchAllCategory();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     fetchAllCategoryByName();
   }, [debounceValue]);
 
   // View infomation category
-  const handleViewInfo = (id: number) => {
+  const handleViewInfo = async (id: number) => {
+    setTitleForm("Thông tin danh mục");
+    await fetchCategoryInfo(id);
     setAction(ACTION_FORM.VIEW);
-    console.log("🚀 ~ handleViewInfo ~ id:", id);
+    setShowModal(true);
   };
 
   // Update category
-  const handleUpdateCategory = (id: number) => {
+  const handleUpdateCategory = async (id: number) => {
+    setTitleForm(`Cập nhật danh mục số #${id}`);
+    await fetchCategoryInfo(id);
     setAction(ACTION_FORM.UPDATE);
-    console.log("🚀 ~ handleUpdateCategory ~ id:", id);
+    setShowModal(true);
   };
 
   // Delete category
@@ -141,12 +173,38 @@ const CategoryManager = () => {
   );
 
   // Create category
-  const handleSubmit = (values: any) => {
-    console.log("🚀 ~ handleSubmit ~ values:", values);
-    setShowModal(false);
+  const handleSubmit = async (values: FormValues) => {
+    if (action === ACTION_FORM.CREATE) {
+      try {
+        const response = await postDataAPINoAuth(URL_CREATE_CATEGORY, values);
+        if (response?.status === 201) {
+          toast.success("Tạo danh mục mới thành công");
+          await fetchAllCategory();
+          setShowModal(false);
+        }
+      } catch (error) {
+        toast.error("Tạo danh mục không thành công");
+      }
+    } else if (action === ACTION_FORM.UPDATE) {
+      try {
+        const response = await putDataAPI(
+          URL_UPDATE_CATEGORY + categoryInfo?.id,
+          values
+        );
+        if (response?.status === 200) {
+          toast.success("Cập nhật danh mục thành công");
+          await fetchAllCategory();
+          setShowModal(false);
+        }
+      } catch (error) {
+        toast.error("Cập nhật danh mục thất bại");
+      }
+    }
   };
 
   const handleShowModal = () => {
+    setCategoryInfo({ status: CATEGORY_STATUS.ACTIVE });
+    setTitleForm("Tạo danh mục");
     setAction(ACTION_FORM.CREATE);
     setShowModal(true);
   };
@@ -190,10 +248,10 @@ const CategoryManager = () => {
           onSubmit={handleSubmit}
           isShow={showModal}
           onShowModal={setShowModal}
-          initialValues={initValue}
+          initialValues={categoryInfo ? categoryInfo : initValue}
           className={cx("category-form")}
         >
-          <CategoryForm titleForm="Thông tin danh mục" action={action} />
+          <CategoryForm titleForm={titleForm} action={action} />
         </Modal>
       )}
     </div>

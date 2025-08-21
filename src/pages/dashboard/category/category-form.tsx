@@ -4,6 +4,7 @@ import styles from "./CategoryManager.module.scss";
 import Upload from "~/components/image-upload";
 import MultiInput from "~/components/multi-input";
 import { ACTION_FORM, CATEGORY_STATUS } from "~/constant/constant";
+import Button from "~/components/button";
 
 interface CategoryFormProps {
   titleForm?: string;
@@ -27,12 +28,13 @@ const CategoryForm = ({ titleForm, action }: CategoryFormProps) => {
   return (
     <>
       <h2>{titleForm}</h2>
-      <Upload name="image"></Upload>
+      <Upload name="image" />
       <MultiInput
         type="text"
-        name="name"
-        placeholder="Enter your name..."
+        name="title"
+        placeholder="Enter category name..."
         label="Name"
+        required
       />
       <MultiInput
         type="radio"
@@ -43,6 +45,9 @@ const CategoryForm = ({ titleForm, action }: CategoryFormProps) => {
         disabled={action === ACTION_FORM.VIEW ? true : false}
         required
       />
+      <Button type="submit" variant="primary" className={cx("submit-btn")}>
+        Save
+      </Button>
     </>
   );
 };
