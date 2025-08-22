@@ -5,14 +5,16 @@ import styles from "./Feature.module.scss";
 import Title from "~/components/title";
 import PostCard from "~/components/post-card";
 import type { PostTypes } from "~/constant/type/type";
+import PostCardSkeleton from "~/components/skeleton";
 
 interface FeatureProps {
   posts?: PostTypes[];
+  isLoading?: boolean;
 }
 
 const cx = classNames.bind(styles);
 
-const Feature = ({ posts }: FeatureProps) => {
+const Feature = ({ posts, isLoading }: FeatureProps) => {
   if (!posts) return;
   return (
     <div className={cx("wrapper")}>
@@ -22,7 +24,11 @@ const Feature = ({ posts }: FeatureProps) => {
           {posts?.length > 0 &&
             posts?.map((post: any) => (
               <SwiperSlide key={post.id} virtualIndex={post.id}>
-                <PostCard postData={post}></PostCard>
+                {!isLoading ? (
+                  <PostCard postData={post}></PostCard>
+                ) : (
+                  <PostCardSkeleton></PostCardSkeleton>
+                )}
               </SwiperSlide>
             ))}
         </Swiper>

@@ -16,9 +16,11 @@ const cx = classNames.bind(styles);
 const HomePage = () => {
   const [posts, setPosts] = useState<PostTypes[]>([]);
   const [newestPosts, setNewestPosts] = useState<PostTypes[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       const response = await getDataAPINoAuth(URL_GET_ALL_POST, {
         pageNo: 1,
         pageSize: 1000,
@@ -26,6 +28,7 @@ const HomePage = () => {
       });
       if (response?.status === 200) {
         setPosts(response?.data?.content);
+        setIsLoading(false);
       }
     } catch (error) {
       toast.error("Lấy danh sách bài viết không thành công");
@@ -34,12 +37,14 @@ const HomePage = () => {
 
   const fetchNewestPosts = async () => {
     try {
+      setIsLoading(true);
       const response = await getDataAPINoAuth(URL_GET_NEWEST_POSTS, {
         pageNo: 1,
         pageSize: 4,
       });
       if (response.status === 200) {
         setNewestPosts(response?.data?.content);
+        setIsLoading(false);
       }
     } catch (error) {
       toast.error("Lấy danh sách bài viết mới nhất thất bại");
@@ -53,9 +58,9 @@ const HomePage = () => {
   return (
     <div className={cx("wrapper")}>
       <Banner />
-      <Feature posts={posts} />
+      <Feature posts={posts} isLoading={isLoading} />
       <NewestUpdate posts={newestPosts} />
-      <RelatedPosts posts={posts} />
+      <RelatedPosts posts={posts} isLoading={isLoading} />
     </div>
   );
 };
