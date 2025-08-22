@@ -8,13 +8,14 @@ import Feature from "~/modules/features";
 import NewestUpdate from "~/modules/newest";
 import RelatedPosts from "~/modules/related-post";
 import { getDataAPINoAuth } from "~/utils/api";
-import { URL_GET_ALL_POST } from "~/api/end-point";
+import { URL_GET_ALL_POST, URL_GET_NEWEST_POSTS } from "~/api/end-point";
 import type { PostTypes } from "~/constant/type/type";
 
 const cx = classNames.bind(styles);
 
 const HomePage = () => {
   const [posts, setPosts] = useState<PostTypes[]>([]);
+  const [newestPosts, setNewestPosts] = useState<PostTypes[]>([]);
 
   const fetchData = async () => {
     try {
@@ -31,15 +32,30 @@ const HomePage = () => {
     }
   };
 
+  const fetchNewestPosts = async () => {
+    try {
+      const response = await getDataAPINoAuth(URL_GET_NEWEST_POSTS, {
+        pageNo: 1,
+        pageSize: 4,
+      });
+      if (response.status === 200) {
+        setNewestPosts(response?.data?.content);
+      }
+    } catch (error) {
+      toast.error("Lấy danh sách bài viết mới nhất thất bại");
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    fetchNewestPosts();
   }, []);
   return (
     <div className={cx("wrapper")}>
       <Banner />
       <Feature posts={posts} />
-      <NewestUpdate />
-      <RelatedPosts />
+      <NewestUpdate posts={newestPosts} />
+      <RelatedPosts posts={posts} />
     </div>
   );
 };

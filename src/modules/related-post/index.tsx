@@ -4,11 +4,11 @@ import styles from "./RelatedPost.module.scss";
 import Title from "~/components/title";
 import PostCard from "~/components/post-card";
 import { Swiper, SwiperSlide } from "swiper/react";
-import type { PostDetailTypes } from "~/constant/type/type";
+import type { PostDetailTypes, PostTypes } from "~/constant/type/type";
 
 interface RelatedProps {
   currentPostId?: number;
-  posts?: PostDetailTypes[];
+  posts?: PostDetailTypes[] | PostTypes[];
 }
 
 const cx = classNames.bind(styles);

@@ -3,36 +3,6 @@
 }
 
 .posts-list {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 30px;
-}
-
-.post-item {
-  img {
-    width: 267px;
-    height: 202px;
-  }
-  :global([class*="post-card__content"]) {
-    margin-top: 20px;
-    padding-top: 0;
-    :global([class*="tag"]) {
-      background-color: #f3edff;
-      font-size: 14px;
-    }
-    :global([class*="post-card__title"]) {
-      font-size: 18px;
-    }
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////
-.wrapper {
-  margin-top: 57px;
-}
-
-.posts-list {
   margin-top: 30px;
 
   // Swiper container styles
